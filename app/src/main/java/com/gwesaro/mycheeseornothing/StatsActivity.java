@@ -18,11 +18,11 @@ public class StatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-
+        Log.i(TAG, "create stats window");
         Intent intent = getIntent();
         Questions quest = intent.getParcelableExtra("questionsClass");
 
-
+        Log.i(TAG, quest.toString());
         TextView modeTextView = findViewById(R.id.modeTextView);
         modeTextView.setText(quest.getMode());
 
@@ -30,8 +30,9 @@ public class StatsActivity extends AppCompatActivity {
         rateTextView.setText(quest.getQuizRate());
 
         TextView percentTextView = findViewById(R.id.percentTextView);
-        percentTextView.setText("" + quest.getSuccessPercent());
+        percentTextView.setText("" + quest.getSuccessPercent() + " %");
 
+        Log.i(TAG, "have update window textview");
     }
 
     private void primalTest(){

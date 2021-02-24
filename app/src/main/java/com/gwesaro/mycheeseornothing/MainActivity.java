@@ -2,6 +2,8 @@ package com.gwesaro.mycheeseornothing;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         try {
             JsonHelper jHelper = new JsonHelper();
@@ -38,9 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
             FlashCard card2 = new FlashCard(  quest.getCurrentQuestion());
             Log.i(TAG, card2.toString());
+
+            Intent intent = new Intent(this, StatsActivity.class);
+            intent.putExtra("questionsClass" , quest);
+            startActivity(intent);
         }catch (Exception e){
             Log.e(TAG, e.toString());
         }
+
+
     }
 
 
