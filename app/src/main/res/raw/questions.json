@@ -1,0 +1,11 @@
+{
+  "questions": {
+    "easy": [
+      {"question": "qui est-ce?", "imageRes": 700029, "responses": ["moi", "toi", "eux"], "answer": "moi"},
+      {"question": "qui est-ce maintenant?", "imageRes": 700029, "responses": ["moi", "toi", "eux"], "answer": "eux"},
+      {"question": "qui est-ce ici?", "imageRes": 700029, "responses": ["moi", "toi", "eux"], "answer": "moi"}
+    ],
+    "medium": [],
+    "hard": []
+  }
+}
