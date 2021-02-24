@@ -79,6 +79,32 @@ public class FlashCard {
         return response.equals(this.answer);
     }
 
+    //region getRandomList
+    public ArrayList<String> getRandomList() {
+        return getRandomList(this.getResponsesNb());
+    }
+
+    public ArrayList<String> getRandomList(int size) {
+        shuffleResponses();
+        return (ArrayList<String>)new ArrayList<String>(this.responses.subList(0, size));
+    }
+
+    public ArrayList<String> getRandomListWithAnswer() {
+        ArrayList<String> list;
+        do {
+            list = getRandomList();
+        }while (!list.contains(this.answer));
+        return list;
+    }
+
+    public ArrayList<String> getRandomListWithAnswer(int size) {
+        ArrayList<String> list;
+        do {
+            list = getRandomList(size);
+        }while (!list.contains(this.answer));
+        return list;
+    }
+    //endregion
 
     @Override
     public String toString() {
