@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.questionsListButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         String path = "bleu_d_auvergne.jpg";
         String name = path.split("\\.")[0];
         int drawableResourceId = this.getResources().getIdentifier(name, "drawable", this.getPackageName());
