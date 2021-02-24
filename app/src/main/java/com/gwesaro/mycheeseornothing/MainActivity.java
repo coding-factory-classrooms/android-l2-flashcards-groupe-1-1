@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.EventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         findViewById(R.id.questionsListButton).setOnClickListener(new View.OnClickListener() {
             @Override
