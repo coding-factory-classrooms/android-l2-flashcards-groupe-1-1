@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.EventListener;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        QuestionCollection collection = new QuestionCollection(QuestionMode.ALL);
+        QuestionCollection collection = new QuestionCollection(QuestionMode.EASY);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
