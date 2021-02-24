@@ -1,4 +1,4 @@
-package com.gwesaro.mycheeseornothing;
+package com.gwesaro.mycheeseornothing.Question;
 
 public enum QuestionMode {
     ALL,

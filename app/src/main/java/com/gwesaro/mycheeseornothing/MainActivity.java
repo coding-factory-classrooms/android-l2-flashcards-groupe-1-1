@@ -1,7 +1,6 @@
 package com.gwesaro.mycheeseornothing;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -15,17 +14,18 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.EventListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.gwesaro.mycheeseornothing.Question.QuestionCollection;
+import com.gwesaro.mycheeseornothing.Question.QuestionCollectionFailedListener;
+import com.gwesaro.mycheeseornothing.Question.QuestionMode;
+import com.gwesaro.mycheeseornothing.Question.QuestionsChangedListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
 
     private static MainActivity mainActivity;
+
+    private QuestionCollection questionCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +49,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String path = "bleu_d_auvergne.jpg";
-        String name = path.split("\\.")[0];
-        int drawableResourceId = this.getResources().getIdentifier(name, "drawable", this.getPackageName());
-
         findViewById(R.id.learnCheeseButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] difficulty = {"Easy", "Medium", "Hard"};
+                String[] difficulty = { "Aléatoire", "Facile", "Moyen", "Difficile"};
 
                 MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
                 materialAlertDialogBuilder.setTitle("Choisir le niveau de difficulté")
@@ -64,15 +60,31 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
-                                intent.putExtra("difficulty", which);
+                                questionCollection = new QuestionCollection(QuestionMode.values()[which]);
+                                questionCollection.addQuestionsChangedListener(
+                                        new QuestionsChangedListener() {
+                                            @Override
+                                            public void onQuestionsChanged() {
+                                                Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+                                                intent.putExtra("questionCollection", questionCollection);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                );
+                                questionCollection.addQuestionCollectionFailedListener(
+                                        new QuestionCollectionFailedListener() {
+                                            @Override
+                                            public void onFailed(Exception e) {
+                                                Log.e(TAG, e.getMessage());
+                                            }
+                                        }
+                                );
+                                dialog.dismiss();
                             }
                         })
                         .show();
             }
         });
-
-        QuestionCollection collection = new QuestionCollection(QuestionMode.ALL);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -81,6 +93,5 @@ public class MainActivity extends AppCompatActivity {
         int id = mainActivity.getResources()
                 .getIdentifier(imagePath.split("\\.")[0], "drawable", mainActivity.getPackageName());
         return id == 0 ? null : mainActivity.getDrawable(id);
-
     }
 }

@@ -16,7 +16,6 @@
         <activity android:name=".QuestionsListActivity" />
         <activity android:name=".QuestionActivity" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".StatsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
