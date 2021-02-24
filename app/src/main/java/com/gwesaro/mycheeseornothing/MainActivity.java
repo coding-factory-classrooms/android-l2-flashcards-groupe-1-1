@@ -12,6 +12,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String path = "bleu_d_auvergne.jpg";
+        String name = path.split("\\.")[0];
+        int drawableResourceId = this.getResources().getIdentifier(name, "drawable", this.getPackageName());
+
         Log.i("Main", "Fromages : \n\n" +
                 //France
                 "Bleu d'Auvergne : " + R.drawable.bleu_d_auvergne + "\n" +
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 "Mimolette : " + R.drawable.mimolette + "\n" +
                 // pays bas
                 "Edam : " + R.drawable.edam + "\n" +
+                "Etorki : " + R.drawable.etorki + "\n" +
                 // Americain
                 "Blue Marble Jack : " + R.drawable.blue_marble_jack + "\n" +
                 "Capricious : " + R.drawable.capricious + "\n" +
