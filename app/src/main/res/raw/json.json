@@ -1,0 +1,40 @@
+{
+  "easy": [
+    {"question": "Quel est ce fromage ?", "imageName": "bleu_d_auvergne.jpg", "responses": ["Bleu d’auvergne", "Roquefort", "Brie de Meaux"], "answer": "Bleu d’auvergne"},
+    {"question": "Quel est ce fromage ?", "imageName":"mozzarella.jpg", "responses": ["Ossau Iraty", "Mozzarella", "Bouton de Culotte"], "answer": "Mozzarella"},
+    {"question": "Quel est ce fromage ?", "imageName": "parmesan.jpg", "responses": ["Parmesan", "Maroille", "Epoisses"], "answer": "Parmesan"},
+    {"question": "Quel est l'origine du Curé Nantais ?", "imageName": "cure_nantais.jpg", "responses": ["Loire-Atlantique", "Morbihan", "Vendée"], "answer": "Loire-Atlantique"},
+    {"question": "Quel est ce fromage ?", "imageName": "reblochon.jpg", "responses": ["Munster", "Figliata", "Reblochon"], "answer": "Reblochon"},
+    {"question": "Quel est ce fromage ?", "imageName": "camembert.jpg", "responses": ["Figliata", "Camembert", "Epoisses"], "answer": "Camembert"}
+  ],
+  "medium": [
+    {"question": "Quel est l'origine du Camembert ?", "imageName": "camembert.jpg", "responses": ["Alsace", "Bretagne", "Normandie"], "answer": "Normandie"},
+    {"question": "Quel est ce fromage ?", "imageName": "capricious.jpg", "responses": ["Cantal", "Capricious", "Parmesan"], "answer": "Capricious"},
+    {"question": "Quel est l'origine de la Figliata ?", "imageName": "figliata.png", "responses": ["Espagne", "Italie", "Allemagne"], "answer": "Italie"},
+    {"question": "Quel est l'origine de l’Edam ?", "imageName": "edam.jpg", "responses": ["Luxembourg", "Pays-Bas", "Hollande"], "answer": "Pays-Bas"},
+    {"question": "Quel est ce fromage ?", "imageName": "cantal.jpg", "responses": ["Cantal", "Comté", "Laguiole"], "answer": "Cantal"},
+    {"question": "Quel est l'origine de la Mozzarella ?", "imageName": "mozzarella .jpg", "responses": ["Espagne", "Italie", "Portugal"], "answer": "Italie"},
+    {"question": "Quel est l'origine du Blue Marble Jack ?", "imageName": "blue_marble_jack.jpg", "responses": ["Etats-Unis", "Angleterre", "Australie"], "answer": "Etats-Unis"},
+    {"question": "Quel est l'origine de la Mimolette ?", "imageName": ".jpg", "responses": ["Flandres française", "Belgique", "Allemagne"], "answer": "Flandre française"},
+    {"question": "Quel est ce fromage ?", "imageName": "cantal.jpg", "responses": ["Cantal", "Comté", "Laguiole"], "answer": "Cantal"},
+    {"question": "Quel est l’origine du Queijo_do_reino ?", "imageName": "queijo_do_reino.jpg", "responses": ["Paraguay", "Brésil", "Colombie"], "answer": "Brésil"},
+    {"question": "Quel est ce fromage ?", "imageName": "epoisses.jpg", "responses": ["Epoisses", "Le Vieux Bologne", "Maroille"], "answer": "Epoisses"}
+  ],
+  "hard": [
+    {"question": "Quel est le temps d’affinage du Camembert ?", "imageName": "camembert.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "10 à 12 semaines"},
+    {"question": "Quel est l'origine du Brunost ?", "imageName": "brunost.jpg", "responses": ["Nouvelle-Zélande", "Finlande", "Norvège"], "answer": "Norvège"},
+    {"question": "Quel est ce fromage ?", "imageName": "etorki.jpg", "responses": ["Etorki", "Comté", "Mont D’or"], "answer": "Etorki"},
+    {"question": "Quel est le temps d’affinage du Brie de Meaux ?", "imageName": "brie_de_meaux.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "4 à 6 semaines"},
+    {"question": "Quel est ce fromage ?", "imageName": "gammelost.jpg", "responses": ["Gammelost", "Pain de mie", "Felle"], "answer": "Gammelost"},
+    {"question": "Quel est l'origine du Munster ?", "imageName": "munster.jpg", "responses": ["Auvergne-Rhône-Alpes", "Alsace Champagne-Ardenne Lorraine", "Bourgogne Franche-Comté"], "answer": "Alsace Champagne-Ardenne Lorraine"},
+    {"question": "Quel est l'origine du Gammelost ?", "imageName": "gammelost.jpg", "responses": ["Estonie", "Suède", "Norvège"], "answer": "Gammelost"},
+    {"question": "Quel est le temps d’affinage du Cantal ?", "imageName": "cantal.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "6 à 8 semaines"},
+    {"question": "Quel est ce fromage ?", "imageName": "figliata.png", "responses": ["Figliata ", "Mozzarella", "Mozzarella Di Bufala"], "answer": "Figliata"},
+    {"question": "Quel est le temps d’affinage du Bleu d’Auvergne ?", "imageName": "bleu_d_auvergne.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "4 à 6 semaines"},
+    {"question": "Quel est ce fromage ?", "imageName": "figliata.png", "responses": ["Figliata ", "Mozzarella", "Mozzarella Di Bufala"], "answer": "Figliata"},
+    {"question": "Quel est l'origine du Bouton de Culote?", "imageName": "brunost.jpg", "responses": ["Allier", "Rhône", "Saône-et-Loire"], "answer": "Saône-et-Loire"},
+    {"question": "Quel est ce fromage ?", "imageName": "queijo_minas.png", "responses": ["Queijo Prato ", "Queijo Minas", "Queijo do Reino"], "answer": "Queijo Minas"},
+    {"question": "Quel est le temps d’affinage du Reblochon ?", "imageName": "reblochon.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "4 à 6 semaines"},
+    {"question": "Quel est le temps d’affinage du Maroille ?", "imageName": "maroille.jpg", "responses": ["4 à 6 semaines", "10 à 12 semaines", "6 à 8 semaines"], "answer": "4 à 6 semaines"}
+  ]
+}
