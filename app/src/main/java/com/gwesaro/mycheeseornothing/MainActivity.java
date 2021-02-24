@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, card2.toString());
 
             Intent intent = new Intent(this, StatsActivity.class);
-            intent.putExtra("questionsClass" , quest);
+            intent.putExtra("percent" , quest.getSuccessPercent());
+            intent.putExtra("rate" , quest.getQuizRate());
+            intent.putExtra("mode" , quest.getMode());
             startActivity(intent);
         }catch (Exception e){
             Log.e(TAG, e.toString());

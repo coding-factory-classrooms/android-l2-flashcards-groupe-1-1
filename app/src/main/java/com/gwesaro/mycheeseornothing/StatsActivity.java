@@ -20,17 +20,15 @@ public class StatsActivity extends AppCompatActivity {
 
         Log.i(TAG, "create stats window");
         Intent intent = getIntent();
-        Questions quest = intent.getParcelableExtra("questionsClass");
 
-        Log.i(TAG, quest.toString());
         TextView modeTextView = findViewById(R.id.modeTextView);
-        modeTextView.setText(quest.getMode());
+        modeTextView.setText(intent.getStringExtra("mode"));
 
         TextView rateTextView = findViewById(R.id.rateTextView);
-        rateTextView.setText(quest.getQuizRate());
+        rateTextView.setText(intent.getStringExtra("rate"));
 
         TextView percentTextView = findViewById(R.id.percentTextView);
-        percentTextView.setText("" + quest.getSuccessPercent() + " %");
+        percentTextView.setText(intent.getFloatExtra("percent", 0) + " %");
 
         Log.i(TAG, "have update window textview");
     }

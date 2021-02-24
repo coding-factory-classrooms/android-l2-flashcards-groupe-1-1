@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Questions implements Parcelable {
+public class Questions {
     private String mode ; // easy , medium, hard
     private int nbQuestions; // total quiz nb questionn
     private JSONObject questions;// (array containing 4 fields necessary for FlashCard (#3))
@@ -28,38 +28,6 @@ public class Questions implements Parcelable {
     public Questions(String mode, JSONObject json) {
         initialize(mode, this.getModeNbQuestion(mode), json);
     }
-
-    protected Questions(Parcel in) {
-        mode = in.readString();
-        nbQuestions = in.readInt();
-        questionCounter = in.readInt();
-        userResponses = in.createStringArray();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mode);
-        dest.writeInt(nbQuestions);
-        dest.writeInt(questionCounter);
-        dest.writeStringArray(userResponses);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Questions> CREATOR = new Creator<Questions>() {
-        @Override
-        public Questions createFromParcel(Parcel in) {
-            return new Questions(in);
-        }
-
-        @Override
-        public Questions[] newArray(int size) {
-            return new Questions[size];
-        }
-    };
 
     /**
      * initialise a questions time.
