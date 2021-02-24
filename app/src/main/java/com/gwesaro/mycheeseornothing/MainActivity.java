@@ -29,14 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i(TAG, quest.toString());
             Log.i(TAG, quest.getCurrentQuestion().toString());
-            quest.setBooleanArray(true);
+            quest.setUserResponse("eux");
 
             Log.i(TAG, quest.getFurtherQuestion().toString());
 
-            quest.setBooleanArray(false);
+            quest.setUserResponse("eux");
 
             Log.i(TAG, quest.toString());
             Log.i(TAG, quest.getAnswerCount() + "/" + quest.getNbQuestions() + " -- " + quest.getSuccessPercent() + "%");
+            Log.i(TAG, quest.getQuizSumary().toString());
         }catch (Exception e){
             Log.e(TAG, e.toString());
         }

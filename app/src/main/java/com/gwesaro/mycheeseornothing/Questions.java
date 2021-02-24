@@ -1,13 +1,13 @@
 package com.gwesaro.mycheeseornothing;
 
-import android.text.BoringLayout;
 import android.util.Log;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Questions {
     private String mode ; // easy , medium, hard
@@ -15,7 +15,7 @@ public class Questions {
     private JSONObject questions;// (array containing 4 fields necessary for FlashCard (#3))
     private ArrayList<Integer> indexList;
     private int questionCounter=0;
-    private Boolean[] booleanArray;
+    private String[] userResponses; //could be more usefull, because at end, could display list of question and if answer is good
 
 
     //region constructor / init
@@ -38,7 +38,7 @@ public class Questions {
         this.nbQuestions = nbQuestions;
         setQuestionsByCompleteJson(json);
         resetIndexList();
-        this.setBooleanArray(new Boolean[this.getNbQuestions()]);
+        this.setUserResponses(new String[this.getNbQuestions()]);
     }
 
     /**
@@ -111,17 +111,18 @@ public class Questions {
         this.questionCounter = questionCounter;
     }
 
-    public Boolean[] getBooleanArray() {
-        return booleanArray;
+    public String[] getUserResponses() {
+        return userResponses;
     }
 
-    public void setBooleanArray(Boolean[] booleanArray) {
-        this.booleanArray = booleanArray;
+    public void setUserResponses(String[] userResponses) {
+        this.userResponses = userResponses;
     }
 
     //endregion
 
     /**
+     * @todo probably could be delete
      * get a JSONObject from another, containing field 'questions', and set 'questions' attributes
      * @param json : a JSONObject, get from file or HTTP request
      */
@@ -132,6 +133,7 @@ public class Questions {
         }
     }
 
+    //region get a question
     /**
      * Used to get the current question, depending on current mode,
      * current indexList and current question counter
@@ -139,29 +141,39 @@ public class Questions {
      */
     public JSONObject getCurrentQuestion(){
         try {
-            return this.getQuestions().getJSONArray(this.mode).getJSONObject( this.getCurrentIndex(this.questionCounter));
+            return this.getQuestionAtIndex(this.questionCounter);
         }catch (Exception e){
         }
         return null;
     }
 
+    public JSONObject getQuestionAtIndex(int index){
+        try {
+            return this.getQuestions().getJSONArray(this.mode).getJSONObject( this.getCurrentIndexFromList(index));
+        }catch (Exception e){
+        }
+        return null;
+    }
+    //endregion
+
 
     /**
      * Used to set a boolean in booleanArray at a specified location
      * @param index : target index
-     * @param bool  : the new boolean
+     * @param userResponse  : user's response
      */
-    public void setBooleanArray(int index, boolean bool) {
-       this.booleanArray[index] = bool;
+    public void setUserResponse(int index, String userResponse) {
+       this.userResponses[index] = userResponse;
     }
 
     /**
      * Used to set a boolean in booleanArray at current question location
-     * @param bool
+     * @param userResponse : user's response
      */
-    public void setBooleanArray(boolean bool) {
-        this.setBooleanArray(this.getQuestionCounter(), bool);
+    public void setUserResponse(String userResponse) {
+        this.setUserResponse(this.getQuestionCounter(), userResponse);
     }
+
 
 
     /**
@@ -169,11 +181,24 @@ public class Questions {
      * @param index :
      * @return current question index
      */
-    public int getCurrentIndex(int index){
+    public int getCurrentIndexFromList(int index){
         return this.getIndexList().get(index);
     }
 
     //endregion
+
+
+    public boolean isAnswerAtIndexCorrect(int index){
+        return this.getUserResponses()[index].equals(this.getAnswerAtIndex(index));
+    }
+
+    public String getAnswerAtIndex(int index){
+        try {
+            return this.getQuestionAtIndex(index).getString("answer");
+        }catch (Exception e){
+        }
+        return null;
+    }
 
     //region stats
 
@@ -183,17 +208,42 @@ public class Questions {
      */
     public int getAnswerCount() {
         int count = 0;
-        for (Boolean b : this.getBooleanArray()) if (b) count++;
+        for (int i =0 ; i<this.getNbQuestions(); i++){
+            if (isAnswerAtIndexCorrect(i)){
+                count ++;
+            }
+        }
         return count;
     }
 
     /**
      * used to get a success percent depending on current correct answer count and
      * total question number
-     * @return
+     * @return success percentage
      */
     public float getSuccessPercent(){
         return (float) this.getAnswerCount() / this.getNbQuestions() * 100;
+    }
+
+
+    /**
+     * used to return a resume of the quiz (all question, with answer and boolean if have correctly answered)
+     */
+    public ArrayList<Map<String, Object>> getQuizSumary(){
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        for (int i=0; i<this.getNbQuestions(); i++){
+            try {
+                JSONObject json = getQuestionAtIndex(i);
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("question", json.getString("question") );
+                map.put("answer", json.getString("answer"));
+                map.put("isCorrect", isAnswerAtIndexCorrect(i) );
+                list.add(map);
+            }catch (Exception e){
+                Log.e("MainAcc", e.toString());
+            }
+        }
+        return list;
     }
     //endregion
 
@@ -215,6 +265,8 @@ public class Questions {
     }
 
     /**
+     * @todo risque de retomber souvent sur les meme index dans le for
+     * faire une copie du tableau de questions, delete celui trouver,
      * Used to initialise question's list index we will display to user.
      * first, we define how much questions will be insert.
      * Then create a random size limited list
@@ -267,7 +319,7 @@ public class Questions {
                 ", questions=" + questions +
                 ", indexList=" + indexList +
                 ", questionCounter=" + questionCounter +
-                ", booleanArray=" + Arrays.toString(booleanArray) +
+                ", userResponses=" + Arrays.toString(userResponses) +
                 '}';
     }
 }
