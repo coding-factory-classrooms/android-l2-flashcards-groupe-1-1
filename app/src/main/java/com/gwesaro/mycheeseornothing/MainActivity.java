@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         try {
             JsonHelper jHelper = new JsonHelper();
             String str = jHelper.loadJSONFromRes(getBaseContext());

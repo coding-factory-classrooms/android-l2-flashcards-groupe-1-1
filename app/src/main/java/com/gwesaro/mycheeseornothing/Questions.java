@@ -225,6 +225,14 @@ public class Questions {
         return (float) this.getAnswerCount() / this.getNbQuestions() * 100;
     }
 
+    /**
+     * used to get a string with quiz rate
+     * @return success percentage
+     */
+    public String getQuizRate(){
+        return  this.getAnswerCount() + "/" + this.getNbQuestions() ;
+    }
+
 
     /**
      * used to return a resume of the quiz (all question, with answer and boolean if have correctly answered)
