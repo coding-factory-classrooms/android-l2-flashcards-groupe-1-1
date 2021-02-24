@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -295,7 +296,7 @@ public class Questions {
         //region create size limited list
         this.indexList = new ArrayList<>(initSize);
 
-        for(int i = 0; i < initSize; i++){
+        /*for(int i = 0; i < initSize; i++){
             int random = getRandomNumber(0, jsonSize);
             if (this.indexList.contains(random)){
                 i--;
@@ -303,7 +304,20 @@ public class Questions {
             else{
                 this.indexList.add(random);
             }
+        }*/
+
+        ArrayList<Integer> array = new ArrayList<>(initSize);
+        //ArrayList<Integer> input = new ArrayList<>(initSize);
+        for(int i=0;i<jsonSize;i++){
+            array.add(i);
         }
+
+        Collections.shuffle(array);
+
+        for(int j=0;j<initSize;j++){
+            this.indexList .add(array.get(j));
+        }
+
         //endregion
 
     }

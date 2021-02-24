@@ -42,16 +42,21 @@ public class MainActivity extends AppCompatActivity {
             FlashCard card2 = new FlashCard(  quest.getCurrentQuestion());
             Log.i(TAG, card2.toString());
 
-            Intent intent = new Intent(this, StatsActivity.class);
-            intent.putExtra("percent" , quest.getSuccessPercent());
-            intent.putExtra("rate" , quest.getQuizRate());
-            intent.putExtra("mode" , quest.getMode());
-            startActivity(intent);
+            navigateToStats(quest);
+
         }catch (Exception e){
             Log.e(TAG, e.toString());
         }
 
 
+    }
+
+    private void navigateToStats(Questions quest) {
+        Intent intent = new Intent(this, StatsActivity.class);
+        intent.putExtra("percent" , quest.getSuccessPercent());
+        intent.putExtra("rate" , quest.getQuizRate());
+        intent.putExtra("mode" , quest.getMode());
+        startActivity(intent);
     }
 
 
