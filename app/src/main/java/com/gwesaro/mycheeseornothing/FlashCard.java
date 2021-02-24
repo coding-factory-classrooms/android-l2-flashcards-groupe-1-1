@@ -68,26 +68,55 @@ public class FlashCard {
     }
     //endregion
 
+    /**
+     * used to shuffle our responses liste
+     */
     public void shuffleResponses(){
         Collections.shuffle(this.responses);
     }
+
+    /**
+     * used to get current responses list size
+     * @return
+     */
     public int getResponsesNb() {
         return this.responses.size();
     }
+
+    /**
+     * used to get a boolean if a response correspond to our current answer
+     * @param response : a string response
+     * @return true if response is correct
+     */
     public boolean isResponseCorrect(String response){
         return response.equals(this.answer);
     }
 
     //region getRandomList
+
+    /**
+     * used to get a complete random list from our FlashCard thanks to a shuffle
+     * @return a list of response
+     */
     public ArrayList<String> getRandomList() {
-        return getRandomList(this.getResponsesNb());
+        shuffleResponses();
+        return this.getResponses();
     }
 
+    /**
+     * used to get a random list from our FlashCard
+     * @param size : Array's size to return
+     * @return a list of response
+     */
     public ArrayList<String> getRandomList(int size) {
         shuffleResponses();
-        return (ArrayList<String>)new ArrayList<String>(this.responses.subList(0, size));
+        return (ArrayList<String>) new ArrayList<String>(this.responses.subList(0, size));
     }
 
+    /**
+     * used to get a complete random list that should contain the current answer
+     * @return a list of response containing answer
+     */
     public ArrayList<String> getRandomListWithAnswer() {
         ArrayList<String> list;
         do {
@@ -96,6 +125,11 @@ public class FlashCard {
         return list;
     }
 
+    /**
+     * used to get a random list that should contain the current answer
+     * @param size : Array's size to return
+     * @return a list of response containing answer
+     */
     public ArrayList<String> getRandomListWithAnswer(int size) {
         ArrayList<String> list;
         do {
