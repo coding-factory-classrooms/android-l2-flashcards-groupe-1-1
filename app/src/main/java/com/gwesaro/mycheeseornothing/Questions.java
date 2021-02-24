@@ -1,11 +1,14 @@
 package com.gwesaro.mycheeseornothing;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -225,6 +228,14 @@ public class Questions {
         return (float) this.getAnswerCount() / this.getNbQuestions() * 100;
     }
 
+    /**
+     * used to get a string with quiz rate
+     * @return success percentage
+     */
+    public String getQuizRate(){
+        return  this.getAnswerCount() + "/" + this.getNbQuestions() ;
+    }
+
 
     /**
      * used to return a resume of the quiz (all question, with answer and boolean if have correctly answered)
@@ -285,7 +296,7 @@ public class Questions {
         //region create size limited list
         this.indexList = new ArrayList<>(initSize);
 
-        for(int i = 0; i < initSize; i++){
+        /*for(int i = 0; i < initSize; i++){
             int random = getRandomNumber(0, jsonSize);
             if (this.indexList.contains(random)){
                 i--;
@@ -293,7 +304,20 @@ public class Questions {
             else{
                 this.indexList.add(random);
             }
+        }*/
+
+        ArrayList<Integer> array = new ArrayList<>(initSize);
+        //ArrayList<Integer> input = new ArrayList<>(initSize);
+        for(int i=0;i<jsonSize;i++){
+            array.add(i);
         }
+
+        Collections.shuffle(array);
+
+        for(int j=0;j<initSize;j++){
+            this.indexList .add(array.get(j));
+        }
+
         //endregion
 
     }
