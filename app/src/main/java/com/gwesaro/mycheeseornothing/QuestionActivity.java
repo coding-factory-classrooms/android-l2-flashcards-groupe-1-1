@@ -19,6 +19,9 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
+        Intent srcIntent = getIntent();
+        int difficulty = srcIntent.getIntExtra("difficulty", 0);
+
 
 
         try {
