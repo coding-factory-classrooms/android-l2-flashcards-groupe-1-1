@@ -144,7 +144,15 @@ public class Questions {
      */
     public JSONObject getCurrentQuestion(){
         try {
-            return this.getQuestionAtIndex(this.questionCounter);
+            return this.getQuestionInIndexList(this.questionCounter);
+        }catch (Exception e){
+        }
+        return null;
+    }
+
+    public JSONObject getQuestionInIndexList(int index){
+        try {
+            return this.getQuestions().getJSONArray(this.mode).getJSONObject( index);
         }catch (Exception e){
         }
         return null;
