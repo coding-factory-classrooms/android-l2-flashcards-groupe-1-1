@@ -85,7 +85,7 @@ public class FlashCard {
 
     public ArrayList<String> getRandomList(int size) {
         shuffleResponses();
-        return (ArrayList<String>)new ArrayList<String>(this.responses.subList(0, size));
+        return (ArrayList<String>) new ArrayList<String>(this.responses.subList(0, size));
     }
 
     public ArrayList<String> getRandomListWithAnswer() {
