@@ -1,37 +1,34 @@
 package com.gwesaro.mycheeseornothing;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.gwesaro.mycheeseornothing.Question.Question;
 import com.gwesaro.mycheeseornothing.Question.QuestionCollection;
-import com.gwesaro.mycheeseornothing.Question.QuestionCollectionFailedListener;
+import com.gwesaro.mycheeseornothing.Question.QuestionCollectionEventListener;
 import com.gwesaro.mycheeseornothing.Question.QuestionMode;
-import com.gwesaro.mycheeseornothing.Question.QuestionsChangedListener;
+import com.gwesaro.mycheeseornothing.Question.Quiz;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements QuestionCollectionEventListener {
 
     private final String TAG = "MainActivity";
-
-    private static MainActivity mainActivity;
-
     private QuestionCollection questionCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivity = this;
+        questionCollection = ((App)getApplication()).questionCollection;
 
         findViewById(R.id.aboutButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,25 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                questionCollection = new QuestionCollection(QuestionMode.values()[which]);
-                                questionCollection.addQuestionsChangedListener(
-                                        new QuestionsChangedListener() {
-                                            @Override
-                                            public void onQuestionsChanged() {
-                                                Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
-                                                intent.putExtra("questionCollection", questionCollection);
-                                                startActivity(intent);
-                                            }
-                                        }
-                                );
-                                questionCollection.addQuestionCollectionFailedListener(
-                                        new QuestionCollectionFailedListener() {
-                                            @Override
-                                            public void onFailed(Exception e) {
-                                                Log.e(TAG, e.getMessage());
-                                            }
-                                        }
-                                );
+                                questionCollection.fetchQuestions(QuestionMode.values()[which]);
                                 dialog.dismiss();
                             }
                         })
@@ -87,11 +66,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static Drawable getDrawableFromImagePath(String imagePath) {
-        int id = mainActivity.getResources()
-                .getIdentifier(imagePath.split("\\.")[0], "drawable", mainActivity.getPackageName());
-        return id == 0 ? null : mainActivity.getDrawable(id);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        questionCollection.addQuestionCollectionEventListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        questionCollection.removeQuestionCollectionEventListener(this);
+    }
+
+    @Override
+    public void onFailed(Exception e) {
+        Log.e(TAG, e.getMessage());
+        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
+        Quiz quiz = new Quiz(questions, mode);
+        quiz.mixQuestions();
+        Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+        intent.putExtra("quiz", quiz);
+        startActivity(intent);
     }
 }

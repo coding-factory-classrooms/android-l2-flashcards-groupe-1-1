@@ -7,34 +7,73 @@
     tools:context=".QuestionActivity">
 
 
-<TextView
-    android:id="@+id/questionTextView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:text="question"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:text="Quel est ce fromage?" />
+    <TextView
+        android:id="@+id/questionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Question ?" />
 
-<ImageView
-    android:id="@+id/cheeseImageView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    app:layout_constraintEnd_toEndOf="@+id/questionTextView"
-    app:layout_constraintStart_toStartOf="@+id/questionTextView"
-    app:layout_constraintTop_toBottomOf="@+id/questionTextView"
-    app:srcCompat="@drawable/ic_launcher_background"
-    android:contentDescription="TODO" />
-
-<Button
-    android:id="@+id/button"
+    <Button
+    android:id="@+id/submitButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Valider"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@+id/questionTextView"
     app:layout_constraintStart_toStartOf="@+id/questionTextView" />
+
+    <ImageView
+        android:id="@+id/questionImageView"
+        android:layout_width="390dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/questionTextView"
+        app:layout_constraintStart_toStartOf="@+id/questionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/questionTextView"
+        app:srcCompat="@drawable/logo2" />
+
+    <TextView
+        android:id="@+id/answer1TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionImageView"
+        tools:text="Réponse 1" />
+
+    <TextView
+        android:id="@+id/answer2TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/answer1TextView"
+        app:layout_constraintStart_toStartOf="@+id/answer1TextView"
+        app:layout_constraintTop_toBottomOf="@+id/answer1TextView"
+        tools:text="Réponse 2" />
+
+    <TextView
+        android:id="@+id/answer3TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/answer2TextView"
+        app:layout_constraintStart_toStartOf="@+id/answer2TextView"
+        app:layout_constraintTop_toBottomOf="@+id/answer2TextView"
+        tools:text="Réponse 3" />
+
+    <TextView
+        android:id="@+id/answer4TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/answer3TextView"
+        app:layout_constraintStart_toStartOf="@+id/answer3TextView"
+        app:layout_constraintTop_toBottomOf="@+id/answer3TextView"
+        tools:text="Réponse 4" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

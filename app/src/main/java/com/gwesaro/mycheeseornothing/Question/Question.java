@@ -1,44 +1,19 @@
 package com.gwesaro.mycheeseornothing.Question;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.RequiresApi;
-
-import com.gwesaro.mycheeseornothing.MainActivity;
-
 public class Question implements Parcelable {
-    private final String question;
-    private final String[] answers;
-    private final String answer;
-    private final String imagePath;
-    private Drawable image;
+    public final String question;
+    public final String[] answers;
+    public final String answer;
+    public final String imagePath;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Question(String question, String[] answers, String answer, String imagePath) {
         this.question = question;
         this.answers = answers;
         this.answer = answer;
         this.imagePath = imagePath;
-        this.image = MainActivity.getDrawableFromImagePath(this.imagePath);
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String[] getAnswers() {
-        return answers;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public Drawable getImage() {
-        return image;
     }
 
     public boolean isValid(String answer) {
