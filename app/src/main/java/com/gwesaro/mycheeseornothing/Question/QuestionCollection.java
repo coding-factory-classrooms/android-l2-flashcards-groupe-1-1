@@ -22,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class QuestionCollection {
+public class QuestionCollection{
 
     private final Collection<QuestionCollectionEventListener> eventListeners;
 
@@ -93,8 +93,8 @@ public class QuestionCollection {
                                 question.getString("question"),
                                 answers,
                                 question.getString("answer"),
-                                question.getString("imageName")
-                        ));
+                                question.getString("imageName"),
+                                /*QuestionMode.valueOf(question.getString("mode").toUpperCase());*/mode));
                     }
                     onQuestionsChanged(questions, mode);
                 }

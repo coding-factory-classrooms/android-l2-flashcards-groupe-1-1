@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootItem"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="100dp"
     tools:context=".QuestionsItemActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/iconListImageView"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
@@ -19,22 +19,34 @@
         app:srcCompat="@drawable/logo2" />
 
     <TextView
-        android:id="@+id/questionListTextView"
+        android:id="@+id/listQuestionTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/difficultyQuestionTextView"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/listAnswerTextView"
+        app:layout_constraintStart_toEndOf="@+id/iconListImageView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:layout_editor_absoluteX="162dp"
         tools:text="Question" />
 
     <TextView
-        android:id="@+id/difficultyQuestionTextView"
+        android:id="@+id/listModeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="Easy"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/questionListTextView"
-        app:layout_constraintTop_toBottomOf="@+id/questionListTextView" />
+        app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/listAnswerTextView" />
+
+    <TextView
+        android:id="@+id/listAnswerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/listModeTextView"
+        app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/listQuestionTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

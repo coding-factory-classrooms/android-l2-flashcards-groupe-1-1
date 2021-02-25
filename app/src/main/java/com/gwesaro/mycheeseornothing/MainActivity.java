@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
         findViewById(R.id.questionsListButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
-                startActivity(intent);
+                questionCollection.fetchQuestions(QuestionMode.ALL);
             }
         });
 
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     public void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Quiz quiz = new Quiz(questions, mode);
         quiz.mixQuestions();
-        Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+        Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
         intent.putExtra("quiz", quiz);
         startActivity(intent);
     }
