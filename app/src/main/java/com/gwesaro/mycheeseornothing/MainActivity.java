@@ -23,12 +23,14 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
 
     private final String TAG = "MainActivity";
     private QuestionCollection questionCollection;
+    private boolean isQuiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         questionCollection = ((App)getApplication()).questionCollection;
+        isQuiz = true;
 
         findViewById(R.id.aboutButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
         findViewById(R.id.questionsListButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isQuiz = false;
                 questionCollection.fetchQuestions(QuestionMode.ALL);
             }
         });
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                isQuiz = true;
                                 questionCollection.fetchQuestions(QuestionMode.values()[which]);
                                 dialog.dismiss();
                             }
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     public void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Quiz quiz = new Quiz(questions, mode);
         quiz.mixQuestions();
-        Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
+        Intent intent = new Intent(MainActivity.this, isQuiz ? QuestionActivity.class : QuestionsListActivity.class);
         intent.putExtra("quiz", quiz);
         startActivity(intent);
     }

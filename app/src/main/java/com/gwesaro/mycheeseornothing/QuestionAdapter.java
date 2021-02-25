@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gwesaro.mycheeseornothing.Question.Question;
+import com.gwesaro.mycheeseornothing.Question.Quiz;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,13 +29,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
     @Override
     public void onClick(View v) {
-        Log.i("QuestionAdapter", "onClick: CLASS");
         switch (v.getId()){
             case R.id.rootItem:
                 Context context = v.getContext();
                 Question question = (Question) v.getTag();
+                ArrayList<Question> list = new ArrayList<Question>();
+                list.add(question);
+                Quiz quiz = new Quiz(list, question.mode);
+                quiz.mixQuestions();
                 Intent intent = new Intent(context, QuestionActivity.class);
-                intent.putExtra("question", question);
+                intent.putExtra("quiz", quiz);
                 context.startActivity(intent);
                 break;
         }
@@ -54,7 +59,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         StringBuilder answer = new StringBuilder();
         for (int i = 0; i < 3 && i < question.answers.length; i++) {
             if (i != 0) {
-                answer.append(" ; ");
+                answer.append(" ~ ");
             }
             answer.append(question.answers[i]);
             if (i == 2 && i + 1 < question.answers.length) {

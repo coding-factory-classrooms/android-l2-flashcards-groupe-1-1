@@ -1,5 +1,6 @@
 package com.gwesaro.mycheeseornothing;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.IntentCompat;
 
@@ -30,7 +31,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private final String TAG = "QuestionActivity";
     private Quiz quiz;
-    private Question question;
+    //private Question question;
     private RadioGroup radioGroup;
     private Button submitButton;
     private TextView resultTextView;
@@ -68,19 +69,13 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
-
-
         Intent srcIntent = getIntent();
-        if (srcIntent.getExtras().containsKey("question")) {
-            question = srcIntent.getParcelableExtra("question");
-            updateInterface(question);
-        }
-        else if (srcIntent.getExtras().containsKey("quiz")) {
+        if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
             updateInterface(quiz.getNextQuestion());
         }
         else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Quiz extra is required!");
         }
     }
 
@@ -132,12 +127,7 @@ public class QuestionActivity extends AppCompatActivity {
         submitButton.setText("Valider");
         resultTextView.setText("");
 
-        if (quiz != null) {
-            setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
-        }
-        else {
-            setTitle(question.mode.getModeFrench() + " ~ Question : 1 / 1");
-        }
+        setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
 
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
