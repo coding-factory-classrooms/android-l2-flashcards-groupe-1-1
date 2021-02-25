@@ -7,16 +7,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -70,7 +65,7 @@ public class QuestionActivity extends AppCompatActivity {
                 alertDialog.show();
 
                 /**
-                 * add listener to close the dialog
+                 * add listener to close the dialog on image click
                  */
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -83,7 +78,8 @@ public class QuestionActivity extends AppCompatActivity {
         });
 
         /**
-         * @todo Gwen
+         * use to set color of RadioButtons, could be used to have different color
+         * depending on RadioButton state
          */
         colorStateList = new ColorStateList(
                 new int[][]{
@@ -94,7 +90,8 @@ public class QuestionActivity extends AppCompatActivity {
 
 
         /**
-         * @todo Gwen
+         * used to enable submitButton when radioGroup have one
+         * RadioButton checked
          */
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -114,6 +111,9 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * try to get quiz from Intent and set interface
+         */
         Intent srcIntent = getIntent();
         if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
@@ -124,7 +124,8 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     /**
-     * add listener when backButton is pressed and set two button for Cancel or Accept
+     * add listener when backButton is pressed and set two button for Cancel or Accept.
+     * if Accept, we navigate to StatsActivity
      */
     @Override
     public void onBackPressed() {
@@ -146,7 +147,7 @@ public class QuestionActivity extends AppCompatActivity {
                 });
 
         /**
-         * switch / case to set the rigth icon mode from the question's mode to dialog
+         * switch / case to set the right icon mode from the question's mode to dialog
          */
         switch (quiz.getMode()) {
             case EASY: dialog.setIcon(R.drawable.logo_easy); break;
@@ -161,7 +162,8 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     /**
-     * if the current question has a next question, the process continue. If no we display the stats
+     * if the current question has a next question, the process continue.
+     * If not, we navigate to StatsActivity
      */
     private void process() {
         if (quiz.hasNext()) {
@@ -187,7 +189,8 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     /**
-     * display the correct text if the answer is correct or not with the rigth colors
+     * display the correct text if the answer is correct or not with the right colors;
+     * all RadioButton are set unClickable, to avoid to select other answers
      */
     private void displayQuestionResponse() {
         //check if answer is correct and display to user
@@ -210,7 +213,8 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     /**
-     * update interface dynamically with the rigth data from the API
+     * update interface dynamically with the right data from the API;
+     * need a question object to set all elements in main view
      * @param question
      */
     private void updateInterface(Question question) {
