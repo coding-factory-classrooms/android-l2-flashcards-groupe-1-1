@@ -26,18 +26,33 @@ public class QuestionCollection{
 
     private final Collection<QuestionCollectionEventListener> eventListeners;
 
+    /**
+     * QuestionsCollection constructor
+     */
     public QuestionCollection() {
         this.eventListeners = new ArrayList<QuestionCollectionEventListener>();
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param listener
+     */
     public void addQuestionCollectionEventListener(QuestionCollectionEventListener listener) {
         this.eventListeners.add(listener);
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param listener
+     */
     public void removeQuestionCollectionEventListener(QuestionCollectionEventListener listener) {
         this.eventListeners.remove(listener);
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param e
+     */
     private void onFailed(Exception e) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -50,6 +65,11 @@ public class QuestionCollection{
         });
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param questions
+     * @param mode
+     */
     private void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -62,6 +82,10 @@ public class QuestionCollection{
         });
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param mode
+     */
     public void fetchQuestions(QuestionMode mode) {
         String url = "http://gryt.tech:8080/mycheeseornothing/";
         if (mode != QuestionMode.ALL) {

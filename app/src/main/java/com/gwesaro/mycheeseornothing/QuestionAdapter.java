@@ -27,6 +27,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         this.questions = questions;
     }
 
+    /**
+     * Override method click to navigate to the rigth flashCard with the rigth data retrieve from the Tag
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -52,6 +56,11 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    /**
+     * Override method onBindView holder to set the correct data to the recyclerView
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, int position) {
         Question question = questions.get(position);

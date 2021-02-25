@@ -23,6 +23,10 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stats);
 
         Intent srcIntent = getIntent();
+
+        /**
+         * retrieve the extra data from intent
+         */
         int nbCorrectAnswers = srcIntent.getIntExtra("nbCorrectAnswers", 0);
         int nbQuestions = srcIntent.getIntExtra("nbQuestions", 1);
 
@@ -32,6 +36,10 @@ public class StatsActivity extends AppCompatActivity {
         modeTextView.setText(mode.getModeFrench());
 
         ImageView statsImageView = findViewById(R.id.statsImageView);
+
+        /**
+         * switch / case to set the rigth icon for the given mode
+         */
         switch (mode) {
             case EASY:
                 statsImageView.setImageResource(R.drawable.logo_easy);

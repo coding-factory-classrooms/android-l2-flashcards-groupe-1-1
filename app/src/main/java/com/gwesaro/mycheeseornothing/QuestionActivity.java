@@ -48,17 +48,30 @@ public class QuestionActivity extends AppCompatActivity {
         detailResultTextView = findViewById(R.id.detailResultTextView);
         questionImageView = findViewById(R.id.questionImageView);
 
+        /**
+         * add listener on FlashCard image to expend them
+         */
         questionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                /**
+                 * create new imageView with the current question's image
+                 */
                 ImageView image = new ImageView(QuestionActivity.this);
                 image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
 
+                /**
+                 * create a dialog and set the imageView
+                 */
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this)
                                 .setView(image);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
+                /**
+                 * add listener to close the dialog
+                 */
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -69,6 +82,9 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * @todo Gwen
+         */
         colorStateList = new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_enabled} //enabled
@@ -77,6 +93,9 @@ public class QuestionActivity extends AppCompatActivity {
         );
 
 
+        /**
+         * @todo Gwen
+         */
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -104,6 +123,9 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * add listener when backButton is pressed and set two button for Cancel or Accept
+     */
     @Override
     public void onBackPressed() {
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(QuestionActivity.this)
@@ -122,6 +144,10 @@ public class QuestionActivity extends AppCompatActivity {
                         dialogInterface.cancel();
                     }
                 });
+
+        /**
+         * switch / case to set the rigth icon mode from the question's mode to dialog
+         */
         switch (quiz.getMode()) {
             case EASY: dialog.setIcon(R.drawable.logo_easy); break;
             case MEDIUM: dialog.setIcon(R.drawable.logo_medium); break;
@@ -134,6 +160,9 @@ public class QuestionActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * if the current question has a next question, the process continue. If no we display the stats
+     */
     private void process() {
         if (quiz.hasNext()) {
             submitButton.setText("Question suivante");
@@ -157,6 +186,9 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * display the correct text if the answer is correct or not with the rigth colors
+     */
     private void displayQuestionResponse() {
         //check if answer is correct and display to user
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
@@ -177,6 +209,10 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * update interface dynamically with the rigth data from the API
+     * @param question
+     */
     private void updateInterface(Question question) {
         ScrollView scrollView = findViewById(R.id.questionScrollView);
         scrollView.scrollTo(0, 0);
@@ -192,6 +228,10 @@ public class QuestionActivity extends AppCompatActivity {
         submitButton.setText("Valider");
     }
 
+    /**
+     * @todo Gwen
+     * @param answers
+     */
     private void handleRadioUpdate(String[] answers) {
         radioGroup.clearCheck();
         //create or update radiobutton for current question answers
@@ -226,6 +266,9 @@ public class QuestionActivity extends AppCompatActivity {
         radioButton.setButtonTintList(colorStateList);
     }
 
+    /**
+     * create a new intent to navigate to stats with the right data
+     */
     private void navigateToStats() {
         Intent intent = new Intent(this, StatsActivity.class);
         int nbCorrectAnswer = quiz.getValidAnswersCount();
