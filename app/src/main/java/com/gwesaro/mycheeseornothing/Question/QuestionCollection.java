@@ -24,13 +24,9 @@ import okhttp3.Response;
 
 public class QuestionCollection {
 
-    private ArrayList<Question> questions;
-    private static String TAG = "QuestionCollection";
-
-    private Collection<QuestionCollectionEventListener> eventListeners;
+    private final Collection<QuestionCollectionEventListener> eventListeners;
 
     public QuestionCollection() {
-        this.questions = new ArrayList<>();
         this.eventListeners = new ArrayList<QuestionCollectionEventListener>();
     }
 
@@ -45,27 +41,25 @@ public class QuestionCollection {
     private void onFailed(Exception e) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
-                         @Override
-                         public void run() {
-                             for(QuestionCollectionEventListener listener : eventListeners) {
-                                 listener.onFailed(e);
-                             }
-                         }
-                     }
-        );
+            @Override
+            public void run() {
+                for (QuestionCollectionEventListener listener : eventListeners) {
+                    listener.onFailed(e);
+                }
+            }
+        });
     }
 
     private void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
-                         @Override
-                         public void run() {
-                             for(QuestionCollectionEventListener listener : eventListeners) {
-                                 listener.onQuestionsChanged(questions, mode);
-                             }
-                         }
-                     }
-        );
+            @Override
+            public void run() {
+                for(QuestionCollectionEventListener listener : eventListeners) {
+                    listener.onQuestionsChanged(questions, mode);
+                }
+            }
+        });
     }
 
     public void fetchQuestions(QuestionMode mode) {
@@ -85,7 +79,7 @@ public class QuestionCollection {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String body = Objects.requireNonNull(response.body()).string();
-                questions.clear();
+                ArrayList<Question> questions = new ArrayList<>();
                 try {
                     JSONArray json = new JSONArray(body);
                     for (int i = 0; i < json.length(); i++) {

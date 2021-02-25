@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
 
     @Override
     public void onFailed(Exception e) {
-        Log.e(TAG, e.getMessage());
         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
