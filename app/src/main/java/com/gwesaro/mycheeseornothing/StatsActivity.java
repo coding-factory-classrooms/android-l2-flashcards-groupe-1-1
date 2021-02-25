@@ -27,11 +27,12 @@ public class StatsActivity extends AppCompatActivity {
         rateTextView.setText(nbCorrectAnswers +  "/" + nbQuestions);
 
         float percent = (float) nbCorrectAnswers / nbQuestions * 100;
-        float result = Math.round(percent*100) / 100;
+        float result = (float) Math.round((float) percent*100) / 100;
+
         Log.i("test" , "rounded = " +result + ", pure =" + percent);
         TextView percentTextView = findViewById(R.id.percentTextView);
         percentTextView.setText(  result + "%");
-        percentTextView.setTextColor( getResources().getColor( (result<33 ? R.color.red : (result>66 ? R.color.chedar: R.color.green) )));
+        percentTextView.setTextColor( getResources().getColor( (result<33 ? R.color.red : (result>66 ? R.color.green: R.color.chedar) )));
 
         Button returnToMainButton = findViewById(R.id.returnToMainButton);
         returnToMainButton.setOnClickListener(new View.OnClickListener() {

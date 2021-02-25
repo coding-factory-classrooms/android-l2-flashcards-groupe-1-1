@@ -61,7 +61,9 @@ public class QuestionActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                process();
+                if(!(radioGroup.getCheckedRadioButtonId() == -1)) {
+                    process();
+                }
             }
         });
 
@@ -78,7 +80,7 @@ public class QuestionActivity extends AppCompatActivity {
             submitButton.setText("Question suivante");
             handleProcess();
         }
-        else {
+        else{
             submitButton.setText("Fin du quiz");
             if (!resultTextView.getText().toString().equals("")) {
                 navigateToStats();
@@ -106,9 +108,6 @@ public class QuestionActivity extends AppCompatActivity {
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
             String selectedRbText = selectedRadioButton.getText().toString();
 
-            /**
-             * @todo mettre des couleurs pour true ou false
-             */
             boolean isCorrect = quiz.CheckAnswer(selectedRbText);
             resultTextView.setText( isCorrect? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer);
             resultTextView.setTextColor( getResources().getColor( (isCorrect ? R.color.green : R.color.red) ));
@@ -120,7 +119,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void updateInterface(Question question) {
         //disabled button
-        submitButton.setEnabled(false);
+        submitButton.setEnabled(false); 
         submitButton.setText("Valider");
         resultTextView.setText("");
 
@@ -138,6 +137,7 @@ public class QuestionActivity extends AppCompatActivity {
         //create or update radiobutton for current question answers
         for (int i=0; i<answers.length; i++){
             RadioButton radioButton ;
+
             if (radioGroup.getChildAt(i) != null){
                 radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
