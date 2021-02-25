@@ -58,26 +58,39 @@ public class QuestionActivity extends AppCompatActivity {
     private void process() {
         if (quiz.hasNext()) {
             submitButton.setText("Question suivante");
-
-            //means that we have already display if answer is correct to user
-            if (!resultTextView.getText().toString().equals("")) {
-                updateInterface(quiz.getNextQuestion());
-            }
-
-            //check if answer is correct and display to user
-            int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-            if (selectedRadioButtonId != -1) {
-                RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-                String selectedRbText = selectedRadioButton.getText().toString();
-
-                resultTextView.setText(quiz.CheckAnswer(selectedRbText) ? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer );
-            } else {
-                Log.i(TAG, "nothing selected");
-            }
-
+            handleProcess();
         }
         else {
-            navigateToStats();
+            submitButton.setText("Fin du quiz");
+            if (!resultTextView.getText().toString().equals("")) {
+                navigateToStats();
+            }
+            else {
+                displayQuestionResponse();
+            }
+        }
+    }
+
+    private void handleProcess(){
+        //means that we have already display if answer is correct to user
+        if (!resultTextView.getText().toString().equals("")) {
+            updateInterface(quiz.getNextQuestion());
+        }
+        else {
+            displayQuestionResponse();
+        }
+    }
+
+    private void displayQuestionResponse(){
+        //check if answer is correct and display to user
+        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+        if (selectedRadioButtonId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            String selectedRbText = selectedRadioButton.getText().toString();
+
+            resultTextView.setText(quiz.CheckAnswer(selectedRbText) ? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer);
+        } else {
+            Log.i(TAG, "nothing selected");
         }
     }
 
@@ -92,7 +105,7 @@ public class QuestionActivity extends AppCompatActivity {
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
 
-        handleRadioUpdate(question.answers);
+        handleRadioUpdate(quiz.mixAnswers(question.answers));
 
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
@@ -126,10 +139,13 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void navigateToStats() {
         Log.i(TAG, "C'est la fin bg");
-        //        Intent intent = new Intent(this, StatsActivity.class);
-        //        intent.putExtra("percent" , this.quest.getSuccessPercent());
-        //        intent.putExtra("rate" , this.quest.getQuizRate());
-        //        intent.putExtra("mode" , this.quest.getMode());
-        //        startActivity(intent);
+        /*
+        Intent intent = new Intent(this, StatsActivity.class);
+        intent.putExtra("percent" , this.quest.getSuccessPercent());
+        intent.putExtra("rate" , this.quest.getQuizRate());
+        intent.putExtra("mode" , this.quest.getMode());
+        startActivity(intent);
+        
+         */
     }
 }
