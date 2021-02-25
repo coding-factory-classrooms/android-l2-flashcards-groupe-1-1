@@ -1,11 +1,17 @@
 package com.gwesaro.mycheeseornothing;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.IntentCompat;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +22,10 @@ import android.widget.TextView;
 import com.gwesaro.mycheeseornothing.Question.Question;
 import com.gwesaro.mycheeseornothing.Question.Quiz;
 
+/**
+ * @todo : bug when answer correct, submitButton stay enabled (should be disabled)
+ *
+ */
 public class QuestionActivity extends AppCompatActivity {
 
     private final String TAG = "QuestionActivity";
@@ -23,6 +33,7 @@ public class QuestionActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Button submitButton;
     private TextView resultTextView;
+    private ColorStateList colorStateList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,12 @@ public class QuestionActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         resultTextView = findViewById(R.id.resultTextView);
 
+        colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_enabled} //enabled
+                },
+                new int[] {getResources().getColor(R.color.chedar) }
+        );
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -89,7 +106,12 @@ public class QuestionActivity extends AppCompatActivity {
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
             String selectedRbText = selectedRadioButton.getText().toString();
 
-            resultTextView.setText(quiz.CheckAnswer(selectedRbText) ? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer);
+            /**
+             * @todo mettre des couleurs pour true ou false
+             */
+            boolean isCorrect = quiz.CheckAnswer(selectedRbText);
+            resultTextView.setText( isCorrect? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer);
+            resultTextView.setTextColor( getResources().getColor( (isCorrect ? R.color.green : R.color.red) ));
         } else {
             Log.i(TAG, "nothing selected");
         }
@@ -126,7 +148,13 @@ public class QuestionActivity extends AppCompatActivity {
                 radioButton = new RadioButton(this);
                 radioButton.setId(i);
                 radioButton.setText(answers[i]);
+                radioButton.setTextColor( getResources().getColor(R.color.chedar));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    setRadioButtonColor(radioButton);
+                }
                 radioGroup.addView(radioButton);
+
             }
         }
 
@@ -137,6 +165,12 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setRadioButtonColor(RadioButton radioButton){
+        radioButton.setButtonTintList(colorStateList);
+    }
+
 
     private void navigateToStats() {
         Log.i(TAG, "C'est la fin bg");
