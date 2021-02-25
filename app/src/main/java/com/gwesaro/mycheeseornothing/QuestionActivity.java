@@ -139,13 +139,11 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void navigateToStats() {
         Log.i(TAG, "C'est la fin bg");
-        /*
         Intent intent = new Intent(this, StatsActivity.class);
-        intent.putExtra("percent" , this.quest.getSuccessPercent());
-        intent.putExtra("rate" , this.quest.getQuizRate());
-        intent.putExtra("mode" , this.quest.getMode());
+        int nbCorrectAnswer = quiz.getValidAnswersCount();
+        intent.putExtra("nbCorrectAnswers" , nbCorrectAnswer );
+        intent.putExtra("nbQuestions" , quiz.getQuestionsCount());
+        intent.putExtra("mode" , quiz.getMode().toString().toLowerCase());
         startActivity(intent);
-        
-         */
     }
 }
