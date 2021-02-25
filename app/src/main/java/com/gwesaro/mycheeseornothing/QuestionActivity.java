@@ -1,6 +1,7 @@
 package com.gwesaro.mycheeseornothing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.IntentCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -144,6 +145,10 @@ public class QuestionActivity extends AppCompatActivity {
         intent.putExtra("nbCorrectAnswers" , nbCorrectAnswer );
         intent.putExtra("nbQuestions" , quiz.getQuestionsCount());
         intent.putExtra("mode" , quiz.getMode().toString().toLowerCase());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+        finish();
     }
 }
