@@ -94,7 +94,7 @@ public class QuestionCollection{
                                 answers,
                                 question.getString("answer"),
                                 question.getString("imageName"),
-                                /*QuestionMode.valueOf(question.getString("mode").toUpperCase());*/mode));
+                                QuestionMode.valueOf(question.getString("mode").toUpperCase())));
                     }
                     onQuestionsChanged(questions, mode);
                 }

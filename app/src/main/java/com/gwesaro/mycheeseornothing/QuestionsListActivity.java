@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.gwesaro.mycheeseornothing.Question.Question;
@@ -18,7 +19,7 @@ import com.gwesaro.mycheeseornothing.Question.Quiz;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsListActivity extends AppCompatActivity{
+public class QuestionsListActivity extends AppCompatActivity {
     private static final String TAG = "QuestionListActivity";
     QuestionCollection questionCollection;
     List<Question> listQuestions = new ArrayList<>();
@@ -34,7 +35,7 @@ public class QuestionsListActivity extends AppCompatActivity{
         quiz = srcIntent.getParcelableExtra("quiz");
 
 
-        for(int i = 0; i < quiz.getQuestionsCount(); i++){
+        for (int i = 0; i < quiz.getQuestionsCount(); i++) {
             listQuestions.add(quiz.get(i));
         }
 
@@ -44,6 +45,9 @@ public class QuestionsListActivity extends AppCompatActivity{
         RecyclerView recyclerView = findViewById(R.id.recyclerViewQuestion);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
     }
 
 }

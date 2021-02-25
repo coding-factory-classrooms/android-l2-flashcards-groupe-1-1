@@ -1,5 +1,8 @@
 package com.gwesaro.mycheeseornothing;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gwesaro.mycheeseornothing.Question.Question;
+import com.gwesaro.mycheeseornothing.Question.Quiz;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +31,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
     @Override
     public void onClick(View v) {
-        //todo
+        Log.i("QuestionAdapter", "onClick: CLASS");
+        switch (v.getId()){
+            case R.id.rootItem:
+                Context context = v.getContext();
+                Question question = (Question) v.getTag();
+                Intent intent = new Intent(context, QuestionActivity.class);
+                intent.putExtra("question", question);
+                context.startActivity(intent);
+                break;
+        }
 
     }
 
@@ -46,15 +59,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         holder.listAnswerTextView.setText(Arrays.toString(question.answers).replaceAll(",", " -"));
         holder.listQuestionTextView.setText(question.question);
         holder.listModeTextView.setText(question.mode.toString().toLowerCase());
+        holder.itemView.setTag(question);
         switch (question.mode){
             case EASY:
-                holder.iconListImageView.setImageResource(R.drawable.logo2);
+                holder.iconListImageView.setImageResource(R.drawable.logo_easy);
                 break;
             case MEDIUM:
-                holder.iconListImageView.setImageResource(R.drawable.logo2);
+                holder.iconListImageView.setImageResource(R.drawable.logo_medium);
                 break;
             case HARD:
-                holder.iconListImageView.setImageResource(R.drawable.logo2);
+                holder.iconListImageView.setImageResource(R.drawable.logo_hard);
                 break;
             case ALL:
             default:
@@ -85,6 +99,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             listModeTextView = itemView.findViewById(R.id.listModeTextView);
             listAnswerTextView = itemView.findViewById(R.id.listAnswerTextView);
             iconListImageView = itemView.findViewById(R.id.iconListImageView);
+
+
 
         }
     }

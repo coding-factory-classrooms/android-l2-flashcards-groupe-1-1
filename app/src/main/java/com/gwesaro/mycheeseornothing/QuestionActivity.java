@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.gwesaro.mycheeseornothing.Question.Question;
 import com.gwesaro.mycheeseornothing.Question.Quiz;
 
+import kotlin.jvm.Throws;
+
 public class QuestionActivity extends AppCompatActivity {
 
     private final String TAG = "QuestionActivity";
     private Quiz quiz;
+    private Question question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,18 @@ public class QuestionActivity extends AppCompatActivity {
         });
 
         Intent srcIntent = getIntent();
-        quiz = srcIntent.getParcelableExtra("quiz");
-        process();
+
+        if(srcIntent.getExtras().containsKey("question")){
+            question = srcIntent.getParcelableExtra("question");
+            updateInterface(question);
+        }else if(srcIntent.getExtras().containsKey("quiz")){
+            quiz = srcIntent.getParcelableExtra("quiz");
+            process();
+        }else{
+            throw new IllegalArgumentException();
+
+        }
+
     }
 
     private void process() {
