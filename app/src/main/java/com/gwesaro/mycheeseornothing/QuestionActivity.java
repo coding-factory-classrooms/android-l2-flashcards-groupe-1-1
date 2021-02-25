@@ -3,6 +3,7 @@ package com.gwesaro.mycheeseornothing;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.gwesaro.mycheeseornothing.Question.Question;
 import com.gwesaro.mycheeseornothing.Question.Quiz;
 
@@ -69,6 +71,28 @@ public class QuestionActivity extends AppCompatActivity {
         else {
             throw new IllegalArgumentException("Quiz extra is required!");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(QuestionActivity.this, "Back Pressed", Toast.LENGTH_SHORT).show();
+        new MaterialAlertDialogBuilder(QuestionActivity.this)
+                .setTitle("Quitter le quiz")
+                .setMessage("Tu ne veux pas un dernier petit bout de fromage ?")
+                .setPositiveButton("Oui, quitter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        navigateToStats();
+                    }
+                })
+                .setNegativeButton("J'en veux encore !", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
     }
 
     private void process() {

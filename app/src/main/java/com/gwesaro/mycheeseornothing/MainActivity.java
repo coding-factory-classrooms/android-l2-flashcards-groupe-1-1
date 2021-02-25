@@ -86,6 +86,27 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     }
 
     @Override
+    public void onBackPressed() {
+        new MaterialAlertDialogBuilder(MainActivity.this)
+                .setTitle("Quitter l'application")
+                .setMessage("Êtes-vous sûr de vouloir quitter My Cheese Or Nothing ?")
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
+    }
+
+    @Override
     public void onFailed(Exception e) {
         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
