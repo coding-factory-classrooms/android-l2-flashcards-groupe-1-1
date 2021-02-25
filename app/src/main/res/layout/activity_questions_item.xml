@@ -5,48 +5,76 @@
     android:id="@+id/rootItem"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginRight="20dp"
     tools:context=".QuestionsItemActivity">
 
-    <ImageView
-        android:id="@+id/iconListImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo2" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/listQuestionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/listAnswerTextView"
-        app:layout_constraintStart_toEndOf="@+id/iconListImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Question" />
 
-    <TextView
-        android:id="@+id/listModeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Easy"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
-        app:layout_constraintTop_toBottomOf="@+id/listAnswerTextView" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
 
-    <TextView
-        android:id="@+id/listAnswerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/listModeTextView"
-        app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
-        app:layout_constraintTop_toBottomOf="@+id/listQuestionTextView" />
+            <ImageView
+                android:id="@+id/iconListImageView"
+                android:layout_width="80dp"
+                android:layout_height="73dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo2" />
+
+            <TextView
+                android:id="@+id/listModeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#939393"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/iconListImageView"
+                app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
+                app:layout_constraintTop_toBottomOf="@+id/listAnswerTextView"
+                tools:text="Difficulté" />
+
+            <TextView
+                android:id="@+id/listAnswerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Réponse 1; Réponse 2 ; Répo..."
+                android:textColor="#000000"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/listModeTextView"
+                app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
+                app:layout_constraintTop_toBottomOf="@+id/listQuestionTextView" />
+
+            <TextView
+                android:id="@+id/listQuestionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/listAnswerTextView"
+                app:layout_constraintStart_toEndOf="@+id/iconListImageView"
+                app:layout_constraintTop_toTopOf="@+id/iconListImageView"
+                tools:text="Question ?" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

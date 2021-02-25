@@ -34,17 +34,17 @@ public class QuestionActivity extends AppCompatActivity {
 
         Intent srcIntent = getIntent();
 
-        if(srcIntent.getExtras().containsKey("question")){
+        if (srcIntent.getExtras().containsKey("question")) {
             question = srcIntent.getParcelableExtra("question");
             updateInterface(question);
-        }else if(srcIntent.getExtras().containsKey("quiz")){
+        }
+        else if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
             process();
-        }else{
-            throw new IllegalArgumentException();
-
         }
-
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void process() {
@@ -57,7 +57,12 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void updateInterface(Question question) {
-        setTitle(quiz.getMode().toString().toLowerCase() + " " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
+        if (quiz != null) {
+            setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
+        }
+        else {
+            setTitle(question.mode.getModeFrench() + " ~ Question : 1 / 1");
+        }
         TextView questionTextView = findViewById(R.id.questionTextView);
         TextView answer1TextView = findViewById(R.id.answer1TextView);
         TextView answer2TextView = findViewById(R.id.answer2TextView);

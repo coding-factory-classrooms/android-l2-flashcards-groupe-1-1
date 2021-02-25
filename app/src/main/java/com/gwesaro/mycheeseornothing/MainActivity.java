@@ -48,7 +48,11 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
         findViewById(R.id.learnCheeseButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] difficulty = { "Aléatoire", "Facile", "Moyen", "Difficile"};
+                QuestionMode[] values = QuestionMode.values();
+                String[] difficulty = new String[values.length];
+                for (int i = 0; i < values.length; i++) {
+                    difficulty[i] = values[i].getModeFrench();
+                }
 
                 MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
                 materialAlertDialogBuilder.setTitle("Choisir le niveau de difficulté")

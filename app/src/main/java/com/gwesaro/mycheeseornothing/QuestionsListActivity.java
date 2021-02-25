@@ -20,34 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsListActivity extends AppCompatActivity {
-    private static final String TAG = "QuestionListActivity";
-    QuestionCollection questionCollection;
-    List<Question> listQuestions = new ArrayList<>();
-    private Quiz quiz;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_list);
         setTitle("Liste des questions");
         Intent srcIntent = getIntent();
-
-        quiz = srcIntent.getParcelableExtra("quiz");
-
-
+        Quiz quiz = srcIntent.getParcelableExtra("quiz");
+        List<Question> listQuestions = new ArrayList<>();
         for (int i = 0; i < quiz.getQuestionsCount(); i++) {
             listQuestions.add(quiz.get(i));
         }
-
-
         QuestionAdapter adapter = new QuestionAdapter(listQuestions);
-
         RecyclerView recyclerView = findViewById(R.id.recyclerViewQuestion);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-
     }
-
 }

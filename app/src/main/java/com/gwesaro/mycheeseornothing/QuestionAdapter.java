@@ -1,10 +1,7 @@
 package com.gwesaro.mycheeseornothing;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gwesaro.mycheeseornothing.Question.Question;
-import com.gwesaro.mycheeseornothing.Question.Quiz;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +37,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 context.startActivity(intent);
                 break;
         }
-
     }
 
     @NonNull
@@ -56,11 +51,33 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, int position) {
         Question question = questions.get(position);
 
-        holder.listAnswerTextView.setText(Arrays.toString(question.answers).replaceAll(",", " -"));
-        holder.listQuestionTextView.setText(question.question);
-        holder.listModeTextView.setText(question.mode.toString().toLowerCase());
+        StringBuilder answer = new StringBuilder();
+        for (int i = 0; i < 3 && i < question.answers.length; i++) {
+            if (i != 0) {
+                answer.append(" ; ");
+            }
+            answer.append(question.answers[i]);
+            if (i == 2 && i + 1 < question.answers.length) {
+                answer.append("...");
+            }
+        }
+        String answerStr = new String(answer);
+        if (answerStr.length() > 40) {
+            answerStr = answerStr.substring(0, 37);
+            answerStr += "...";
+        }
+
+        String questionStr = question.question;
+        if (questionStr.length() > 40) {
+            questionStr = questionStr.substring(0, 37);
+            questionStr += "...";
+        }
+        holder.listQuestionTextView.setText(questionStr);
+        holder.listAnswerTextView.setText(answerStr);
+        holder.listModeTextView.setText(question.mode.getModeFrench());
+
         holder.itemView.setTag(question);
-        switch (question.mode){
+        switch (question.mode) {
             case EASY:
                 holder.iconListImageView.setImageResource(R.drawable.logo_easy);
                 break;
@@ -75,9 +92,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 holder.iconListImageView.setImageResource(R.drawable.logo2);
                 break;
         }
-
-        //holder.imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
-
+        holder.itemView.setOnClickListener(this);
     }
 
     @Override
@@ -86,7 +101,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         final TextView listQuestionTextView;
         final TextView listModeTextView;
         final ImageView iconListImageView;
@@ -94,14 +108,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             listQuestionTextView = itemView.findViewById(R.id.listQuestionTextView);
             listModeTextView = itemView.findViewById(R.id.listModeTextView);
             listAnswerTextView = itemView.findViewById(R.id.listAnswerTextView);
             iconListImageView = itemView.findViewById(R.id.iconListImageView);
-
-
-
         }
     }
 }
