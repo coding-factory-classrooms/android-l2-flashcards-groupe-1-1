@@ -41,15 +41,18 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
         findViewById(R.id.questionsListButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
-                startActivity(intent);
+                questionCollection.fetchQuestions(QuestionMode.ALL);
             }
         });
 
         findViewById(R.id.learnCheeseButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] difficulty = { "Aléatoire", "Facile", "Moyen", "Difficile"};
+                QuestionMode[] values = QuestionMode.values();
+                String[] difficulty = new String[values.length];
+                for (int i = 0; i < values.length; i++) {
+                    difficulty[i] = values[i].getModeFrench();
+                }
 
                 MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
                 materialAlertDialogBuilder.setTitle("Choisir le niveau de difficulté")
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     public void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Quiz quiz = new Quiz(questions, mode);
         quiz.mixQuestions();
-        Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+        Intent intent = new Intent(MainActivity.this, QuestionsListActivity.class);
         intent.putExtra("quiz", quiz);
         startActivity(intent);
     }

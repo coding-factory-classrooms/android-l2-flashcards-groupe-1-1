@@ -25,10 +25,12 @@ import com.gwesaro.mycheeseornothing.Question.Quiz;
  * @todo : bug when answer correct, submitButton stay enabled (should be disabled)
  *
  */
+
 public class QuestionActivity extends AppCompatActivity {
 
     private final String TAG = "QuestionActivity";
     private Quiz quiz;
+    private Question question;
     private RadioGroup radioGroup;
     private Button submitButton;
     private TextView resultTextView;
@@ -69,9 +71,17 @@ public class QuestionActivity extends AppCompatActivity {
 
 
         Intent srcIntent = getIntent();
-        quiz = srcIntent.getParcelableExtra("quiz");
-        updateInterface(quiz.getNextQuestion());
-
+        if (srcIntent.getExtras().containsKey("question")) {
+            question = srcIntent.getParcelableExtra("question");
+            updateInterface(question);
+        }
+        else if (srcIntent.getExtras().containsKey("quiz")) {
+            quiz = srcIntent.getParcelableExtra("quiz");
+            updateInterface(quiz.getNextQuestion());
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void process() {
@@ -122,7 +132,13 @@ public class QuestionActivity extends AppCompatActivity {
         submitButton.setText("Valider");
         resultTextView.setText("");
 
-        setTitle(quiz.getMode().toString().toLowerCase() + " " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
+        if (quiz != null) {
+            setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
+        }
+        else {
+            setTitle(question.mode.getModeFrench() + " ~ Question : 1 / 1");
+        }
+
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
 
