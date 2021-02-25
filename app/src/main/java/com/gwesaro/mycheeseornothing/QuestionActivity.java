@@ -3,14 +3,19 @@ package com.gwesaro.mycheeseornothing;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.gwesaro.mycheeseornothing.Question.Question;
+import com.gwesaro.mycheeseornothing.Question.QuestionMode;
 import com.gwesaro.mycheeseornothing.Question.Quiz;
 
 public class QuestionActivity extends AppCompatActivity {
@@ -29,6 +35,7 @@ public class QuestionActivity extends AppCompatActivity {
     private TextView resultTextView;
     private TextView detailResultTextView;
     private ColorStateList colorStateList;
+    private ImageView questionImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +44,36 @@ public class QuestionActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         resultTextView = findViewById(R.id.resultTextView);
         detailResultTextView = findViewById(R.id.detailResultTextView);
+        questionImageView = findViewById(R.id.questionImageView);
+
+        questionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ImageView image = new ImageView(QuestionActivity.this);
+                image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this)
+                                .setView(image);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+            }
+        });
 
         colorStateList = new ColorStateList(
-                new int[][] {
-                        new int[] { android.R.attr.state_enabled } //enabled
+                new int[][]{
+                        new int[]{android.R.attr.state_enabled} //enabled
                 },
-                new int[] { getResources().getColor(R.color.blue1) }
+                new int[]{getResources().getColor(R.color.blue1)}
         );
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -57,7 +87,7 @@ public class QuestionActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!(radioGroup.getCheckedRadioButtonId() == -1)) {
+                if (!(radioGroup.getCheckedRadioButtonId() == -1)) {
                     process();
                 }
             }
@@ -67,8 +97,7 @@ public class QuestionActivity extends AppCompatActivity {
         if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
             updateInterface(quiz.getNextQuestion());
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Quiz extra is required!");
         }
     }
@@ -99,13 +128,11 @@ public class QuestionActivity extends AppCompatActivity {
         if (quiz.hasNext()) {
             submitButton.setText("Question suivante");
             handleProcess();
-        }
-        else {
+        } else {
             submitButton.setText("Fin du quiz");
             if (!resultTextView.getText().toString().isEmpty()) {
                 navigateToStats();
-            }
-            else {
+            } else {
                 displayQuestionResponse();
             }
         }
@@ -115,8 +142,7 @@ public class QuestionActivity extends AppCompatActivity {
         //means that we have already display if answer is correct to user
         if (!resultTextView.getText().toString().isEmpty()) {
             updateInterface(quiz.getNextQuestion());
-        }
-        else {
+        } else {
             displayQuestionResponse();
         }
     }
@@ -135,9 +161,8 @@ public class QuestionActivity extends AppCompatActivity {
             boolean isCorrect = quiz.CheckAnswer(selectedRbText);
             resultTextView.setText(isCorrect ? "Bonne réponse !" : "Mauvaise réponse !");
             detailResultTextView.setText(isCorrect ? "" : "La bonne réponse est " + quiz.getCurrentQuestion().answer);
-            resultTextView.setTextColor( getResources().getColor( (isCorrect ? R.color.green : R.color.red) ));
-        }
-        else {
+            resultTextView.setTextColor(getResources().getColor((isCorrect ? R.color.green : R.color.red)));
+        } else {
             Toast.makeText(QuestionActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -167,10 +192,9 @@ public class QuestionActivity extends AppCompatActivity {
         for (int i = 0; i < answers.length; i++) {
             RadioButton radioButton;
             if (radioGroup.getChildAt(i) != null) {
-                radioButton = (RadioButton)radioGroup.getChildAt(i);
+                radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
-            }
-            else {
+            } else {
                 radioButton = new RadioButton(this);
                 radioButton.setId(i);
                 radioButton.setText(answers[i]);
@@ -184,7 +208,7 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         //delete all radio button over answers length
-        if (radioGroup.getChildCount() > answers.length){
+        if (radioGroup.getChildCount() > answers.length) {
             for (int i = answers.length; i < radioGroup.getChildCount(); i++) {
                 radioGroup.removeViewAt(i);
             }
@@ -192,16 +216,16 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void setRadioButtonColor(RadioButton radioButton){
+    private void setRadioButtonColor(RadioButton radioButton) {
         radioButton.setButtonTintList(colorStateList);
     }
 
     private void navigateToStats() {
         Intent intent = new Intent(this, StatsActivity.class);
         int nbCorrectAnswer = quiz.getValidAnswersCount();
-        intent.putExtra("nbCorrectAnswers" , nbCorrectAnswer );
-        intent.putExtra("nbQuestions" , quiz.getQuestionsCount());
-        intent.putExtra("modeOrdinal" , quiz.getMode().ordinal());
+        intent.putExtra("nbCorrectAnswers", nbCorrectAnswer);
+        intent.putExtra("nbQuestions", quiz.getQuestionsCount());
+        intent.putExtra("modeOrdinal", quiz.getMode().ordinal());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
