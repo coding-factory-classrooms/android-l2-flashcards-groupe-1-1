@@ -1,10 +1,8 @@
 package com.gwesaro.mycheeseornothing;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,12 +21,15 @@ public class QuestionActivity extends AppCompatActivity {
     private Quiz quiz;
     private RadioGroup radioGroup;
     private Button submitButton;
+    private TextView resultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         radioGroup = findViewById(R.id.radioGroup);
+        resultTextView = findViewById(R.id.resultTextView);
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -50,27 +51,48 @@ public class QuestionActivity extends AppCompatActivity {
 
         Intent srcIntent = getIntent();
         quiz = srcIntent.getParcelableExtra("quiz");
-        process();
+        updateInterface(quiz.getNextQuestion());
+
     }
 
     private void process() {
         if (quiz.hasNext()) {
-            updateInterface(quiz.getNextQuestion());
+            submitButton.setText("Question suivante");
+
+            //means that we have already display if answer is correct to user
+            if (!resultTextView.getText().toString().equals("")) {
+                updateInterface(quiz.getNextQuestion());
+            }
+
+            //check if answer is correct and display to user
+            int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+            if (selectedRadioButtonId != -1) {
+                RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+                String selectedRbText = selectedRadioButton.getText().toString();
+
+                resultTextView.setText(quiz.CheckAnswer(selectedRbText) ? "Bonne réponse" : "Désolé, la bonne réponse est " + quiz.getCurrentQuestion().answer );
+            } else {
+                Log.i(TAG, "nothing selected");
+            }
+
         }
         else {
             navigateToStats();
         }
     }
 
+
     private void updateInterface(Question question) {
+        //disabled button
+        submitButton.setEnabled(false);
+        submitButton.setText("Valider");
+        resultTextView.setText("");
+
         setTitle(quiz.getMode().toString().toLowerCase() + " " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
 
         handleRadioUpdate(question.answers);
-
-        //disabled button
-        submitButton.setEnabled(false);
 
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
@@ -83,9 +105,8 @@ public class QuestionActivity extends AppCompatActivity {
             if (radioGroup.getChildAt(i) != null){
                 radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
-                if (radioButton.isChecked()){
-                    radioButton.setChecked(false);
-                }
+                radioButton.setChecked(false);
+
             }
             else{
                 radioButton = new RadioButton(this);
@@ -101,8 +122,6 @@ public class QuestionActivity extends AppCompatActivity {
                 radioGroup.removeViewAt(i);
             }
         }
-
-        Log.i(TAG, radioGroup.getChildAt(1) + "");
     }
 
     private void navigateToStats() {

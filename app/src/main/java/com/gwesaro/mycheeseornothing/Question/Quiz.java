@@ -80,6 +80,10 @@ public class Quiz implements Parcelable {
         return currentQuestion;
     }
 
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
     public boolean CheckAnswer(String answer) {
         if(currentQuestion.isValid(answer)) {
             this.validAnswersCount++;
