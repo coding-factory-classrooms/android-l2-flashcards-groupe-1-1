@@ -33,8 +33,7 @@ public class QuestionActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                //@todo enabled validation button (disabled before)
-                submitButton.setClickable(true);
+                submitButton.setEnabled(true);
             }
         });
 
@@ -46,6 +45,8 @@ public class QuestionActivity extends AppCompatActivity {
                 process();
             }
         });
+
+
 
         Intent srcIntent = getIntent();
         quiz = srcIntent.getParcelableExtra("quiz");
@@ -69,18 +70,22 @@ public class QuestionActivity extends AppCompatActivity {
         handleRadioUpdate(question.answers);
 
         //disabled button
-        submitButton.setClickable(false);
+        submitButton.setEnabled(false);
 
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
     }
 
     private void handleRadioUpdate(String[] answers){
+        //create or update radiobutton for current question answers
         for (int i=0; i<answers.length; i++){
             RadioButton radioButton ;
             if (radioGroup.getChildAt(i) != null){
                 radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
+                if (radioButton.isChecked()){
+                    radioButton.setChecked(false);
+                }
             }
             else{
                 radioButton = new RadioButton(this);
@@ -89,6 +94,14 @@ public class QuestionActivity extends AppCompatActivity {
                 radioGroup.addView(radioButton);
             }
         }
+
+        //delete all radio button over answers length
+        if ( radioGroup.getChildCount()>answers.length){
+            for (int i=answers.length; i<radioGroup.getChildCount(); i++){
+                radioGroup.removeViewAt(i);
+            }
+        }
+
         Log.i(TAG, radioGroup.getChildAt(1) + "");
     }
 
