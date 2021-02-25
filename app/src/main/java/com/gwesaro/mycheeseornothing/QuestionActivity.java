@@ -8,7 +8,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.gwesaro.mycheeseornothing.Question.Question;
@@ -18,13 +21,26 @@ public class QuestionActivity extends AppCompatActivity {
 
     private final String TAG = "QuestionActivity";
     private Quiz quiz;
+    private RadioGroup radioGroup;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        radioGroup = findViewById(R.id.radioGroup);
 
-        findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //@todo enabled validation button (disabled before)
+                submitButton.setClickable(true);
+            }
+        });
+
+        submitButton = findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 process();
@@ -48,19 +64,32 @@ public class QuestionActivity extends AppCompatActivity {
     private void updateInterface(Question question) {
         setTitle(quiz.getMode().toString().toLowerCase() + " " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
         TextView questionTextView = findViewById(R.id.questionTextView);
-        TextView answer1TextView = findViewById(R.id.answer1TextView);
-        TextView answer2TextView = findViewById(R.id.answer2TextView);
-        TextView answer3TextView = findViewById(R.id.answer3TextView);
-        TextView answer4TextView = findViewById(R.id.answer4TextView);
         questionTextView.setText(question.question);
-        answer1TextView.setText(question.answers[0]);
-        answer2TextView.setText(question.answers[1]);
-        answer3TextView.setText(question.answers[2]);
-        if (question.answers.length > 3) {
-            answer4TextView.setText(question.answers[3]);
-        }
+
+        handleRadioUpdate(question.answers);
+
+        //disabled button
+        submitButton.setClickable(false);
+
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
+    }
+
+    private void handleRadioUpdate(String[] answers){
+        for (int i=0; i<answers.length; i++){
+            RadioButton radioButton ;
+            if (radioGroup.getChildAt(i) != null){
+                radioButton = (RadioButton) radioGroup.getChildAt(i);
+                radioButton.setText(answers[i]);
+            }
+            else{
+                radioButton = new RadioButton(this);
+                radioButton.setId(i);
+                radioButton.setText(answers[i]);
+                radioGroup.addView(radioButton);
+            }
+        }
+        Log.i(TAG, radioGroup.getChildAt(1) + "");
     }
 
     private void navigateToStats() {
