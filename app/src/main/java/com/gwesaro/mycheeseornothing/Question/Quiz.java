@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -50,6 +52,14 @@ public class Quiz implements Parcelable {
         }
     }
 
+    public String[] mixAnswers(String[] answers) {
+        List<String> strList = Arrays.asList(answers);
+        Collections.shuffle(strList);
+        answers = strList.toArray(new String[strList.size()]);
+
+        return answers;
+    }
+
     public Question get(int index) {
         return questions.get(index);
     }
@@ -77,6 +87,10 @@ public class Quiz implements Parcelable {
     public Question getNextQuestion() {
         this.indexQuestion = currentQuestion == null ? 0 : this.indexQuestion + 1;
         currentQuestion = get(mixedIndex[this.indexQuestion]);
+        return currentQuestion;
+    }
+
+    public Question getCurrentQuestion() {
         return currentQuestion;
     }
 

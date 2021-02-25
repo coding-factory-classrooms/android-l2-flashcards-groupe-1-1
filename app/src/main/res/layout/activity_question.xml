@@ -36,44 +36,26 @@
         app:layout_constraintTop_toBottomOf="@+id/questionTextView"
         app:srcCompat="@drawable/logo2" />
 
-    <TextView
-        android:id="@+id/answer1TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/resultTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/questionImageView"
-        tools:text="Réponse 1" />
+        app:layout_constraintTop_toBottomOf="@+id/questionImageView" />
 
     <TextView
-        android:id="@+id/answer2TextView"
+        android:id="@+id/resultTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="@+id/answer1TextView"
-        app:layout_constraintStart_toStartOf="@+id/answer1TextView"
-        app:layout_constraintTop_toBottomOf="@+id/answer1TextView"
-        tools:text="Réponse 2" />
-
-    <TextView
-        android:id="@+id/answer3TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="@+id/answer2TextView"
-        app:layout_constraintStart_toStartOf="@+id/answer2TextView"
-        app:layout_constraintTop_toBottomOf="@+id/answer2TextView"
-        tools:text="Réponse 3" />
-
-    <TextView
-        android:id="@+id/answer4TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="@+id/answer3TextView"
-        app:layout_constraintStart_toStartOf="@+id/answer3TextView"
-        app:layout_constraintTop_toBottomOf="@+id/answer3TextView"
-        tools:text="Réponse 4" />
+        android:layout_marginBottom="8dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toEndOf="@+id/submitButton"
+        app:layout_constraintStart_toStartOf="@+id/submitButton"
+        tools:text="Bonne reponse" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
