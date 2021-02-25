@@ -5,57 +5,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
 public class StatsActivity extends AppCompatActivity {
-
-    private final String TAG = "StatsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        Log.i(TAG, "create stats window");
-        Intent intent = getIntent();
+        Intent srcIntent = getIntent();
+        int nbCorrectAnswers = srcIntent.getIntExtra("nbCorrectAnswers", 0);
+        int nbQuestions = srcIntent.getIntExtra("nbQuestions", 1);
 
         TextView modeTextView = findViewById(R.id.modeTextView);
-        modeTextView.setText(intent.getStringExtra("mode"));
+        modeTextView.setText( srcIntent.getStringExtra("mode"));
 
         TextView rateTextView = findViewById(R.id.rateTextView);
-        rateTextView.setText(intent.getStringExtra("rate"));
+        rateTextView.setText(nbCorrectAnswers +  "/" + nbQuestions);
 
+        float percent = (float) nbCorrectAnswers / nbQuestions * 100;
+        float result = (float) Math.round((float) percent*100) / 100;
+
+        Log.i("test" , "rounded = " +result + ", pure =" + percent);
         TextView percentTextView = findViewById(R.id.percentTextView);
-        percentTextView.setText(intent.getFloatExtra("percent", 0) + " %");
+        percentTextView.setText(  result + "%");
+        percentTextView.setTextColor( getResources().getColor( (result<33 ? R.color.red : (result>66 ? R.color.green: R.color.chedar) )));
 
-        Log.i(TAG, "have update window textview");
+        Button returnToMainButton = findViewById(R.id.returnToMainButton);
+        returnToMainButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-    private void primalTest(){
-        try {
-            JsonHelper jHelper = new JsonHelper();
-            String str = jHelper.loadJSONFromRes(getBaseContext());
-            JSONObject obj = new JSONObject(str);
-
-            Questions quest = new Questions("easy", obj);
-
-            quest.setUserResponse("eux");
-            quest.getFurtherQuestion();
-            quest.setUserResponse("eux");
-
-            TextView modeTextView = findViewById(R.id.modeTextView);
-            modeTextView.setText(quest.getMode());
-
-            TextView rateTextView = findViewById(R.id.rateTextView);
-            rateTextView.setText(quest.getQuizRate());
-
-            TextView percentTextView = findViewById(R.id.percentTextView);
-            percentTextView.setText("" + quest.getSuccessPercent());
-
-        }catch (Exception e){
-            Log.e(TAG, e.toString());
-        }
-    }
 }
