@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -143,6 +144,8 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void updateInterface(Question question) {
+        ScrollView scrollView = findViewById(R.id.questionScrollView);
+        scrollView.scrollTo(0, 0);
         resultTextView.setText("");
         detailResultTextView.setText("");
 
