@@ -75,8 +75,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(QuestionActivity.this, "Back Pressed", Toast.LENGTH_SHORT).show();
-        new MaterialAlertDialogBuilder(QuestionActivity.this)
+        MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(QuestionActivity.this)
                 .setTitle("Quitter le quiz")
                 .setMessage("Tu ne veux pas un dernier petit bout de fromage ?")
                 .setPositiveButton("Oui, quitter", new DialogInterface.OnClickListener() {
@@ -91,8 +90,17 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
-                })
-                .show();
+                });
+        switch (quiz.getMode()) {
+            case EASY: dialog.setIcon(R.drawable.logo_easy); break;
+            case MEDIUM: dialog.setIcon(R.drawable.logo_medium); break;
+            case HARD: dialog.setIcon(R.drawable.logo_hard); break;
+            case ALL:
+            default:
+                dialog.setIcon(R.drawable.logo2);
+                break;
+        }
+        dialog.show();
     }
 
     private void process() {
@@ -145,18 +153,12 @@ public class QuestionActivity extends AppCompatActivity {
     private void updateInterface(Question question) {
         resultTextView.setText("");
         detailResultTextView.setText("");
-
         setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
-
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
-
         handleRadioUpdate(quiz.mixAnswers(question.answers));
-
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
-
-        //disabled button
         submitButton.setEnabled(false);
         submitButton.setText("Valider");
     }
