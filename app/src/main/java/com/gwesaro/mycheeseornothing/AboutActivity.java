@@ -18,6 +18,9 @@ public class AboutActivity extends AppCompatActivity {
 
         TextView versionTextView = findViewById(R.id.versionTextView);
 
+        /**
+         * get the app version from packageInfo
+         */
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionTextView.setText("Version v" + pInfo.versionName);

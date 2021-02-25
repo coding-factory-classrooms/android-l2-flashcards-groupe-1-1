@@ -19,6 +19,11 @@ public class Quiz implements Parcelable {
     private int validAnswersCount;
     private final ArrayList<Question> questions;
 
+    /**
+     * Quiz constructor
+     * @param questions
+     * @param mode
+     */
     public Quiz(ArrayList<Question> questions, QuestionMode mode) {
         this.questions = questions;
         this.mode = mode;
@@ -29,6 +34,10 @@ public class Quiz implements Parcelable {
         this.currentQuestion = null;
     }
 
+    /**
+     * return the theoretical number of questions
+     * @return
+     */
     private int getNumberOfQuestions() {
         switch (this.mode) {
             case ALL: return this.questions.size();
@@ -39,6 +48,9 @@ public class Quiz implements Parcelable {
         }
     }
 
+    /**
+     * Mix the questions's indexes
+     */
     public void mixQuestions() {
         this.currentQuestion = null;
         this.mixedIndex = new int[Math.min(getNumberOfQuestions(), questions.size())];
@@ -52,6 +64,11 @@ public class Quiz implements Parcelable {
         }
     }
 
+    /**
+     * Mix the answers's indexes
+     * @param answers
+     * @return
+     */
     public String[] mixAnswers(String[] answers) {
         List<String> strList = Arrays.asList(answers);
         Collections.shuffle(strList);
@@ -60,40 +77,78 @@ public class Quiz implements Parcelable {
         return answers;
     }
 
+    /**
+     * return the question to the given index
+     * @param index
+     * @return
+     */
     public Question get(int index) {
         return questions.get(index);
     }
 
+    /**
+     * return the valid answers count
+     * @return
+     */
     public int getValidAnswersCount() {
         return validAnswersCount;
     }
 
+    /**
+     * return the question's index
+     * @return
+     */
     public int getIndexQuestion() {
         return indexQuestion;
     }
 
+    /**
+     * return the question count
+     * @return
+     */
     public int getQuestionsCount() {
         return this.mixedIndex.length;
     }
 
+    /**
+     * return the question's mode
+     * @return
+     */
     public QuestionMode getMode() {
         return this.mode;
     }
 
+    /**
+     * return true if there is a next question index
+     * @return
+     */
     public boolean hasNext() {
         return this.indexQuestion + 1 < mixedIndex.length;
     }
 
+    /**
+     * return the next question
+     * @return
+     */
     public Question getNextQuestion() {
         this.indexQuestion = currentQuestion == null ? 0 : this.indexQuestion + 1;
         currentQuestion = get(mixedIndex[this.indexQuestion]);
         return currentQuestion;
     }
 
+    /**
+     * return the current question
+     * @return
+     */
     public Question getCurrentQuestion() {
         return currentQuestion;
     }
 
+    /**
+     * check if the given answer is the rigth one
+     * @param answer
+     * @return
+     */
     public boolean CheckAnswer(String answer) {
         if(currentQuestion.isValid(answer)) {
             this.validAnswersCount++;

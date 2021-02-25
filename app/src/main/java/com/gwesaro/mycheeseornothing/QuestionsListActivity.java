@@ -25,12 +25,21 @@ public class QuestionsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_list);
         setTitle("Liste des questions");
+        /**
+         * Retrieve the intent
+         */
         Intent srcIntent = getIntent();
+
         Quiz quiz = srcIntent.getParcelableExtra("quiz");
         List<Question> listQuestions = new ArrayList<>();
+
+        /**
+         * copy the quiz question to a new list of questions
+         */
         for (int i = 0; i < quiz.getQuestionsCount(); i++) {
             listQuestions.add(quiz.get(i));
         }
+
         QuestionAdapter adapter = new QuestionAdapter(listQuestions);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewQuestion);
         recyclerView.setAdapter(adapter);

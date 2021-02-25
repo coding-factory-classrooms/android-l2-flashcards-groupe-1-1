@@ -9,6 +9,12 @@ public class ProgressBarAnimation extends Animation {
     private float from;
     private float  to;
 
+    /**
+     * ProgressBarAnimation constructor
+     * @param progressBar
+     * @param from
+     * @param to
+     */
     public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
         super();
         this.progressBar = progressBar;
@@ -16,6 +22,11 @@ public class ProgressBarAnimation extends Animation {
         this.to = to;
     }
 
+    /**
+     * @todo Romano
+     * @param interpolatedTime
+     * @param t
+     */
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         super.applyTransformation(interpolatedTime, t);

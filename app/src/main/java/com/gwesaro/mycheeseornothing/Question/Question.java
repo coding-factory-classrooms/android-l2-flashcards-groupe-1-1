@@ -13,6 +13,14 @@ public class Question implements Parcelable {
     public final QuestionMode mode;
     public final int modeOrdinal;
 
+    /**
+     * Question constructor
+     * @param question
+     * @param answers
+     * @param answer
+     * @param imagePath
+     * @param mode
+     */
     public Question(String question, String[] answers, String answer, String imagePath, QuestionMode mode) {
         this.question = question;
         this.answers = answers;
@@ -21,6 +29,7 @@ public class Question implements Parcelable {
         this.mode = mode;
         this.modeOrdinal = this.mode.ordinal();
     }
+
 
     protected Question(Parcel in) {
         question = in.readString();
