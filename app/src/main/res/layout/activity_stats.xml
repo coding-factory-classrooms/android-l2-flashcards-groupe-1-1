@@ -48,6 +48,9 @@
         android:textColor="@color/cheese"
         android:textSize="70sp"
         android:textStyle="bold"
+
+        android:shadowColor="#111111"
+        android:shadowRadius="8"
         app:layout_constraintBottom_toBottomOf="@+id/statsImageView"
         app:layout_constraintEnd_toEndOf="@+id/statsImageView"
         app:layout_constraintStart_toStartOf="@+id/statsImageView"
