@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatsActivity">
+
+    <ImageView
+        android:id="@+id/statsImageView"
+        android:layout_width="320dp"
+        android:layout_height="385dp"
+        android:alpha="0.35"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo2" />
+
+    <TextView
+        android:id="@+id/modeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/labelMode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labelMode"
+        tools:text="Facile" />
+
+    <TextView
+        android:id="@+id/goodAnswersCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/labelAnswer"
+        app:layout_constraintStart_toStartOf="@+id/modeTextView"
+        app:layout_constraintTop_toTopOf="@+id/labelAnswer"
+        tools:text="2/3" />
+
+    <TextView
+        android:id="@+id/percentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:textColor="@color/green2"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/statsImageView"
+        app:layout_constraintEnd_toEndOf="@+id/statsImageView"
+        app:layout_constraintStart_toStartOf="@+id/statsImageView"
+        app:layout_constraintTop_toTopOf="@+id/statsImageView"
+        tools:text="33.3 %" />
+
+    <TextView
+        android:id="@+id/labelMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:text="Difficulté"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Bonne réponse"
+        app:layout_constraintStart_toStartOf="@+id/labelMode"
+        app:layout_constraintTop_toBottomOf="@+id/labelMode" />
+
+    <TextView
+        android:id="@+id/labelPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Poucentage de Réussite"
+        app:layout_constraintBottom_toTopOf="@+id/percentTextView"
+        app:layout_constraintEnd_toEndOf="@+id/percentTextView"
+        app:layout_constraintStart_toStartOf="@+id/percentTextView" />
+
+    <Button
+        android:id="@+id/returnToMainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retour a l'accueil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:scaleY="4"
+        app:layout_constraintBottom_toBottomOf="@+id/statsImageView"
+        app:layout_constraintEnd_toEndOf="@+id/statsImageView"
+        app:layout_constraintStart_toStartOf="@+id/statsImageView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
