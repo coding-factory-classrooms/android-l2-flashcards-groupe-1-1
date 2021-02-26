@@ -33,13 +33,7 @@ public class StatsActivity extends AppCompatActivity {
         QuestionMode mode = QuestionMode.values()[srcIntent.getIntExtra("modeOrdinal", 0)];
         TextView modeTextView = findViewById(R.id.modeTextView);
 
-        /**
-         * update mode displayed on screen
-         */
-        TextView modeTextView = findViewById(R.id.modeTextView);
-        QuestionMode mode = QuestionMode.values()[srcIntent.getIntExtra("modeOrdinal", 0)];
         modeTextView.setText(mode.getModeFrench());
-
         ImageView statsImageView = findViewById(R.id.statsImageView);
 
         /**
