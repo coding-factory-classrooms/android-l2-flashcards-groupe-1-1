@@ -15,10 +15,15 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         setTitle("À propos");
         TextView versionTextView = findViewById(R.id.versionTextView);
+
+        /**
+         * get the app version from packageInfo
+         */
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionTextView.setText("Version v" + pInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
+        } 
+        catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
     }

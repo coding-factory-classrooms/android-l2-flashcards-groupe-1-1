@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.gwesaro.mycheeseornothing.Question.QuestionCollection;
 
+/**
+ * only used to get collection easely
+ */
 public class App extends Application {
 
     public QuestionCollection questionCollection;

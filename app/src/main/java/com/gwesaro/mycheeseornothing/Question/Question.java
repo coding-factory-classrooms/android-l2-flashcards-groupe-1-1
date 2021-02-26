@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import java.util.Arrays;
 
+/**
+ * A POJO containing all necessary information for a question
+ */
 public class Question implements Parcelable {
     public final String question;
     public final String[] answers;
@@ -13,6 +16,14 @@ public class Question implements Parcelable {
     public final QuestionMode mode;
     public final int modeOrdinal;
 
+    /**
+     * Question constructor
+     * @param question
+     * @param answers
+     * @param answer
+     * @param imagePath
+     * @param mode
+     */
     public Question(String question, String[] answers, String answer, String imagePath, QuestionMode mode) {
         this.question = question;
         this.answers = answers;
@@ -21,6 +32,7 @@ public class Question implements Parcelable {
         this.mode = mode;
         this.modeOrdinal = this.mode.ordinal();
     }
+
 
     protected Question(Parcel in) {
         question = in.readString();
@@ -57,6 +69,11 @@ public class Question implements Parcelable {
         }
     };
 
+    /**
+     * check and get if a user response is correct
+     * @param answer
+     * @return
+     */
     public boolean isValid(String answer) {
         return this.answer.equals(answer);
     }

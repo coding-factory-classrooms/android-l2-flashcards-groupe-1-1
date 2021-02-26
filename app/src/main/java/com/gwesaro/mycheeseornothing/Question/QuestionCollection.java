@@ -26,18 +26,33 @@ public class QuestionCollection{
 
     private final Collection<QuestionCollectionEventListener> eventListeners;
 
+    /**
+     * QuestionsCollection constructor
+     */
     public QuestionCollection() {
         this.eventListeners = new ArrayList<QuestionCollectionEventListener>();
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param listener
+     */
     public void addQuestionCollectionEventListener(QuestionCollectionEventListener listener) {
         this.eventListeners.add(listener);
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param listener
+     */
     public void removeQuestionCollectionEventListener(QuestionCollectionEventListener listener) {
         this.eventListeners.remove(listener);
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param e
+     */
     private void onFailed(Exception e) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -50,6 +65,11 @@ public class QuestionCollection{
         });
     }
 
+    /**
+     * @todo Romano c'est pour toi
+     * @param questions
+     * @param mode
+     */
     private void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -62,11 +82,19 @@ public class QuestionCollection{
         });
     }
 
+    /**
+     * used to fetch questions from (Best PO ever) Robin's server.
+     * mode is used to fetch the wanted questions.
+     * @param mode : quiz mode
+     */
     public void fetchQuestions(QuestionMode mode) {
+        // create the url to send to server
         String url = "http://gryt.tech:8080/mycheeseornothing/";
         if (mode != QuestionMode.ALL) {
             url += "?difficulty=" + mode.toString().toLowerCase();
         }
+
+        // start request
         Request request = new Request.Builder().url(url).build();
         OkHttpClient client = new OkHttpClient();
         client.newCall(request).enqueue(new Callback() {
@@ -82,13 +110,19 @@ public class QuestionCollection{
                 ArrayList<Question> questions = new ArrayList<>();
                 try {
                     JSONArray json = new JSONArray(body);
+
+                    // loop for each question in the jsonArray
                     for (int i = 0; i < json.length(); i++) {
                         JSONObject question = new JSONObject(json.get(i).toString());
+
+                        // get current question potential answers
                         JSONArray jsonAnswers = question.getJSONArray("responses");
                         String[] answers = new String[jsonAnswers.length()];
                         for (int j = 0; j < jsonAnswers.length(); j++) {
                             answers[j] = jsonAnswers.getString(j);
                         }
+
+                        // add a new question to list
                         questions.add(new Question(
                                 question.getString("question"),
                                 answers,
