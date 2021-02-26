@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     private final String TAG = "MainActivity";
     private QuestionCollection questionCollection;
     private boolean isQuiz;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
                 .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        setMediaPlayer(R.raw.song_end);
                         dialogInterface.cancel();
                         finishAffinity();
                     }
@@ -123,6 +126,22 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
                     }
                 })
                 .show();
+    }
+
+    private void setMediaPlayer(int rawId) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer = MediaPlayer.create(MainActivity.this, rawId);
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 
     /**

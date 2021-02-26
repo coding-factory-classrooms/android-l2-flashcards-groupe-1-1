@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     private TextView resultTextView;
     private TextView detailResultTextView;
     private ColorStateList colorStateList;
-    private ImageView questionImageView;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,38 +43,34 @@ public class QuestionActivity extends AppCompatActivity {
         resultTextView = findViewById(R.id.resultTextView);
         detailResultTextView = findViewById(R.id.detailResultTextView);
         submitButton = findViewById(R.id.submitButton);
-
-        /**
-         * add listener on FlashCard image to expend them
-         */
-        questionImageView.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
+           /**
+             * used to validate question (and display result),
+             * navigate to StatsActivity at quiz end, or go to next question
+             * if there is one (and update interface).
+             * Check if one Radiobutton is select before executing
+             */
             @Override
             public void onClick(View v) {
-
-                /**
-                 * create new imageView with the current question's image
-                 */
+                if (radioGroup.getCheckedRadioButtonId() != -1) {
+                    process();
+                }
+            }
+        });
+        findViewById(R.id.questionImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 ImageView image = new ImageView(QuestionActivity.this);
                 image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
-
-                /**
-                 * create a dialog and set the imageView
-                 */
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this)
-                                .setView(image);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-                /**
-                 * add listener to close the dialog on image click
-                 */
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alertDialog.dismiss();
                     }
-                });
-
+                });  
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this).setView(image);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -82,17 +79,15 @@ public class QuestionActivity extends AppCompatActivity {
          * depending on RadioButton state
          */
         colorStateList = new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_enabled} //enabled
-                },
-                new int[]{getResources().getColor(R.color.blue1)}
+                new int[][] { new int[] { android.R.attr.state_enabled } }, //enabled
+                new int[] { getResources().getColor(R.color.blue1) }
         );
-
 
         /**
          * used to enable submitButton when radioGroup have one
          * RadioButton checked
          */
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -101,30 +96,18 @@ public class QuestionActivity extends AppCompatActivity {
         });
 
         /**
-         * used to validate question (and display result),
-         * navigate to StatsActivity at quiz end, or go to next question
-         * if there is one (and update interface).
-         * Check if one Radiobutton is select before executing
-         */
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!(radioGroup.getCheckedRadioButtonId() == -1)) {
-                    process();
-                }
-            }
-        });
-
-        /**
          * try to get quiz from Intent and set interface
          */
+
         Intent srcIntent = getIntent();
         if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
             updateInterface(quiz.getNextQuestion());
-        } else {
+        }
+        else {
             throw new IllegalArgumentException("Quiz extra is required!");
         }
+        setMediaPlayer(R.raw.song_quiz_start);
     }
 
     /**
@@ -165,6 +148,22 @@ public class QuestionActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    private void setMediaPlayer(int rawId) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer = MediaPlayer.create(QuestionActivity.this, rawId);
+        mediaPlayer.start();
+    }
+
     /**
      * if the current question has a next question, the process continue.
      * If not, we navigate to StatsActivity if already have displayQuestionResponse
@@ -173,7 +172,8 @@ public class QuestionActivity extends AppCompatActivity {
         if (quiz.hasNext()) {
             submitButton.setText("Question suivante");
             handleProcess();
-        } else {
+        }
+        else {
             submitButton.setText("Fin du quiz");
             if (!resultTextView.getText().toString().isEmpty()) {
                 navigateToStats();
@@ -191,7 +191,8 @@ public class QuestionActivity extends AppCompatActivity {
     private void handleProcess() {
         if (!resultTextView.getText().toString().isEmpty()) {
             updateInterface(quiz.getNextQuestion());
-        } else {
+        }
+        else {
             displayQuestionResponse();
         }
     }
@@ -202,7 +203,6 @@ public class QuestionActivity extends AppCompatActivity {
      * after having display Answer to user
      */
     private void displayQuestionResponse() {
-        //check if answer is correct and display to user
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
         if (selectedRadioButtonId != -1) {
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
@@ -212,11 +212,20 @@ public class QuestionActivity extends AppCompatActivity {
                 radioGroup.getChildAt(i).setClickable(false);
             }
 
-            boolean isCorrect = quiz.CheckAnswer(selectedRbText);
-            resultTextView.setText(isCorrect ? "Bonne réponse !" : "Mauvaise réponse !");
-            detailResultTextView.setText(isCorrect ? "" : "La bonne réponse est " + quiz.getCurrentQuestion().answer);
-            resultTextView.setTextColor(getResources().getColor((isCorrect ? R.color.green : R.color.red)));
-        } else {
+            if (quiz.CheckAnswer(selectedRbText)) {
+                resultTextView.setText("Bonne réponse !");
+                detailResultTextView.setText("");
+                resultTextView.setTextColor(getResources().getColor((R.color.green2)));
+                setMediaPlayer(R.raw.song_right_answer);
+            }
+            else {
+                resultTextView.setText("Mauvaise réponse !");
+                detailResultTextView.setText("La bonne réponse est " + quiz.getCurrentQuestion().answer + ".");
+                resultTextView.setTextColor(getResources().getColor(R.color.red));
+                setMediaPlayer(R.raw.song_wring_answer);
+            }
+        }
+        else {
             Toast.makeText(QuestionActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -260,13 +269,15 @@ public class QuestionActivity extends AppCompatActivity {
      */
     private void handleRadioUpdate(String[] answers) {
         radioGroup.clearCheck();
+
         // create or update radiobutton for current question answers
         for (int i = 0; i < answers.length; i++) {
             RadioButton radioButton;
             if (radioGroup.getChildAt(i) != null) {
                 radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
-            } else {
+            }
+            else {
                 radioButton = new RadioButton(this);
                 radioButton.setId(i);
                 radioButton.setText(answers[i]);

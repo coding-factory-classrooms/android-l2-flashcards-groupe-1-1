@@ -13,9 +13,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
         setTitle("À propos");
-
         TextView versionTextView = findViewById(R.id.versionTextView);
 
         /**
@@ -24,7 +22,8 @@ public class AboutActivity extends AppCompatActivity {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionTextView.setText("Version v" + pInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
+        } 
+        catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
     }
