@@ -36,7 +36,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the theoretical number of questions.
-     * @return
+     * @return : an int depending on a QuestionMode
      */
     private int getNumberOfQuestions() {
         switch (this.mode) {
@@ -49,7 +49,7 @@ public class Quiz implements Parcelable {
     }
 
     /**
-     * Mix the questions's indexes
+     * Mix the questions's indexes, set mixedIndex attribute
      */
     public void mixQuestions() {
         this.currentQuestion = null;
@@ -71,7 +71,7 @@ public class Quiz implements Parcelable {
     /**
      * Mix the questions' answers string
      * @param answers : String array of a question's answers
-     * @return
+     * @return : answers String array
      */
     public String[] mixAnswers(String[] answers) {
         List<String> strList = Arrays.asList(answers);
@@ -82,8 +82,8 @@ public class Quiz implements Parcelable {
 
     /**
      * return the question to the given index
-     * @param index
-     * @return
+     * @param index : desired question's index
+     * @return : the question at given index
      */
     public Question get(int index) {
         return questions.get(index);
@@ -91,7 +91,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the valid answers count
-     * @return
+     * @return : number of valid question
      */
     public int getValidAnswersCount() {
         return validAnswersCount;
@@ -99,7 +99,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the question's index
-     * @return
+     * @return : current question's index
      */
     public int getIndexQuestion() {
         return indexQuestion;
@@ -107,7 +107,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the question count
-     * @return
+     * @return : total question's number
      */
     public int getQuestionsCount() {
         return this.mixedIndex.length;
@@ -115,7 +115,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the question's mode
-     * @return
+     * @return : current mode
      */
     public QuestionMode getMode() {
         return this.mode;
@@ -123,15 +123,15 @@ public class Quiz implements Parcelable {
 
     /**
      * return true if there is a next question index
-     * @return
+     * @return : true if has a question next
      */
     public boolean hasNext() {
         return this.indexQuestion + 1 < mixedIndex.length;
     }
 
     /**
-     * return the next question
-     * @return
+     * return the next question and increment indexQuestion attribute
+     * @return : next question
      */
     public Question getNextQuestion() {
         this.indexQuestion = currentQuestion == null ? 0 : this.indexQuestion + 1;
@@ -141,7 +141,7 @@ public class Quiz implements Parcelable {
 
     /**
      * return the current question
-     * @return
+     * @return : current question
      */
     public Question getCurrentQuestion() {
         return currentQuestion;
@@ -149,8 +149,8 @@ public class Quiz implements Parcelable {
 
     /**
      * check if the given answer is the right one, and increment validAnswersCount
-     * @param answer
-     * @return
+     * @param answer : user's answer
+     * @return : true if current question's answer is correct
      */
     public boolean CheckAnswer(String answer) {
         if(currentQuestion.isValid(answer)) {

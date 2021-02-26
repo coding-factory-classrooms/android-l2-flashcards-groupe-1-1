@@ -70,9 +70,9 @@ public class Question implements Parcelable {
     };
 
     /**
-     * check and get if a user response is correct
-     * @param answer
-     * @return
+     * check and get if user's answer is correct
+     * @param answer : user's answer
+     * @return : true if user's answer is correct
      */
     public boolean isValid(String answer) {
         return this.answer.equals(answer);

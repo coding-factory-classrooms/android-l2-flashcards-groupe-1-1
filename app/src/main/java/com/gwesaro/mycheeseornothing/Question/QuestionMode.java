@@ -8,18 +8,18 @@ public enum QuestionMode {
 
     /**
      * return the mode in French
-     * @return
+     * @return : mode's french equivalent
      */
     public String getModeFrench() {
-        return getModeFrenchOf(this);
+        return getModeFrench(this);
     }
 
     /**
-     * return the mode in French from a mode
-     * @param mode
-     * @return
+     * return the mode in French from a given mode
+     * @param mode : a QuestionMode
+     * @return : given mode's french equivalent
      */
-    public String getModeFrenchOf(QuestionMode mode) {
+    public String getModeFrench(QuestionMode mode) {
         switch (mode) {
             case EASY: return "Facile";
             case MEDIUM: return "Moyen";
