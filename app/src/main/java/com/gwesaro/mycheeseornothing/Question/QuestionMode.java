@@ -2,6 +2,7 @@ package com.gwesaro.mycheeseornothing.Question;
 
 public enum QuestionMode {
     ALL,
+    RANDOM,
     EASY,
     MEDIUM,
     HARD;
@@ -24,9 +25,10 @@ public enum QuestionMode {
             case EASY: return "Facile";
             case MEDIUM: return "Moyen";
             case HARD: return "Difficile";
+            case RANDOM: return "Aléatoire";
             case ALL:
             default:
-                return "Aléatoire";
+                return "Tout";
         }
     }
 }

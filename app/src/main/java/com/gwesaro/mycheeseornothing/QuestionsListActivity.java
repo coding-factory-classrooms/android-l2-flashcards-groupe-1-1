@@ -24,7 +24,6 @@ public class QuestionsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_list);
-        setTitle("Liste des questions");
 
         /**
          * Retrieve the intent
@@ -33,6 +32,8 @@ public class QuestionsListActivity extends AppCompatActivity {
 
         Quiz quiz = srcIntent.getParcelableExtra("quiz");
         List<Question> listQuestions = new ArrayList<>();
+
+        setTitle("Liste : " + quiz.getQuestionsCount() + (quiz.getQuestionsCount() > 1 ? " questions" : " question"));
 
         /**
          * copy the quiz question to a new list of questions
