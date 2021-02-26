@@ -38,10 +38,26 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        questionImageView = findViewById(R.id.questionImageView);
         radioGroup = findViewById(R.id.radioGroup);
         resultTextView = findViewById(R.id.resultTextView);
         detailResultTextView = findViewById(R.id.detailResultTextView);
+        findViewById(R.id.questionImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView image = new ImageView(QuestionActivity.this);
+                image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this).setView(image);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+
         submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
            /**
@@ -55,22 +71,6 @@ public class QuestionActivity extends AppCompatActivity {
                 if (radioGroup.getCheckedRadioButtonId() != -1) {
                     process();
                 }
-            }
-        });
-        findViewById(R.id.questionImageView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageView image = new ImageView(QuestionActivity.this);
-                image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
-                image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });  
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this).setView(image);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
             }
         });
 

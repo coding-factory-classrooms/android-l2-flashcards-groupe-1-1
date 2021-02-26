@@ -5,15 +5,15 @@ import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 
 public class ProgressBarAnimation extends Animation {
-    private ProgressBar progressBar;
-    private float from;
-    private float  to;
+    private final ProgressBar progressBar;
+    private final float from;
+    private final float  to;
 
     /**
      * ProgressBarAnimation constructor
-     * @param progressBar
-     * @param from
-     * @param to
+     * @param progressBar The progressBar to anim
+     * @param from Start value
+     * @param to End value
      */
     public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
         super();
@@ -23,9 +23,9 @@ public class ProgressBarAnimation extends Animation {
     }
 
     /**
-     * @todo Romano
-     * @param interpolatedTime
-     * @param t
+     * Apply the transform to the progress bar
+     * @param interpolatedTime Duration
+     * @param t Time mapped
      */
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
