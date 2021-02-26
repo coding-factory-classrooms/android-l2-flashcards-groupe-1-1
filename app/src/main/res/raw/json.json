@@ -16,7 +16,7 @@
     {"mode": "medium", "question": "Quel est l'origine de la Mozzarella ?", "imageName": "mozzarella.jpg", "responses": ["Espagne", "Italie", "Portugal", "Chypre"], "answer": "Italie"},
     {"mode": "medium", "question": "Quel est l'origine du Blue Marble Jack ?", "imageName": "blue_marble_jack.jpg", "responses": ["Etats-Unis", "Angleterre", "Australie", "Nouvelle-Zélande"], "answer": "Etats-Unis"},
     {"mode": "medium", "question": "Quel est l'origine de la Mimolette ?", "imageName": "mimolette.jpg", "responses": ["Flandres française", "Belgique", "Allemagne", "Alsace"], "answer": "Flandres française"},
-    {"mode": "medium", "question": "Quel est ce fromage ?", "imageName": "cantal.jpg", "responses": ["Cantal", "Comté", "Laguiole", "Parmesan"], "answer": "Cantal"},
+    {"mode": "medium", "question": "Quel est ce fromage ?", "imageName": "laguiole.jpg", "responses": ["Cantal", "Comté", "Laguiole", "Parmesan"], "answer": "Laguiole"},
     {"mode": "medium", "question": "Quel est l’origine du Queijo do reino ?", "imageName": "queijo_do_reino.jpg", "responses": ["Paraguay", "Brésil", "Colombie", "Uruguay"], "answer": "Brésil"},
     {"mode": "medium", "question": "Quel est ce fromage ?", "imageName": "epoisses.jpg", "responses": ["Epoisses", "Le Vieux Bologne", "Maroille", "Mont d'or"], "answer": "Epoisses"}
   ],

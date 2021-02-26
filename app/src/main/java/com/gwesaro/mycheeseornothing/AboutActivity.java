@@ -13,11 +13,8 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
         setTitle("À propos");
-
         TextView versionTextView = findViewById(R.id.versionTextView);
-
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionTextView.setText("Version v" + pInfo.versionName);

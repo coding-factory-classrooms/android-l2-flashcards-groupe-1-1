@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     private TextView resultTextView;
     private TextView detailResultTextView;
     private ColorStateList colorStateList;
-    private ImageView questionImageView;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +41,12 @@ public class QuestionActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         resultTextView = findViewById(R.id.resultTextView);
         detailResultTextView = findViewById(R.id.detailResultTextView);
-        questionImageView = findViewById(R.id.questionImageView);
-
-        questionImageView.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.questionImageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ImageView image = new ImageView(QuestionActivity.this);
                 image.setImageResource(getResources().getIdentifier(quiz.getCurrentQuestion().imagePath.split("\\.")[0], "drawable", getPackageName()));
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this)
-                                .setView(image);
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this).setView(image);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 image.setOnClickListener(new View.OnClickListener() {
@@ -59,43 +55,36 @@ public class QuestionActivity extends AppCompatActivity {
                         alertDialog.dismiss();
                     }
                 });
-
             }
         });
-
         colorStateList = new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_enabled} //enabled
-                },
-                new int[]{getResources().getColor(R.color.blue1)}
+                new int[][] { new int[] { android.R.attr.state_enabled } }, //enabled
+                new int[] { getResources().getColor(R.color.blue1) }
         );
-
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 submitButton.setEnabled(group.getCheckedRadioButtonId() != -1);
             }
         });
-
         submitButton = findViewById(R.id.submitButton);
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(radioGroup.getCheckedRadioButtonId() == -1)) {
+                if (radioGroup.getCheckedRadioButtonId() != -1) {
                     process();
                 }
             }
         });
-
         Intent srcIntent = getIntent();
         if (srcIntent.getExtras().containsKey("quiz")) {
             quiz = srcIntent.getParcelableExtra("quiz");
             updateInterface(quiz.getNextQuestion());
-        } else {
+        }
+        else {
             throw new IllegalArgumentException("Quiz extra is required!");
         }
+        setMediaPlayer(R.raw.song_quiz_start);
     }
 
     @Override
@@ -128,11 +117,28 @@ public class QuestionActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    private void setMediaPlayer(int rawId) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer = MediaPlayer.create(QuestionActivity.this, rawId);
+        mediaPlayer.start();
+    }
+
     private void process() {
         if (quiz.hasNext()) {
             submitButton.setText("Question suivante");
             handleProcess();
-        } else {
+        }
+        else {
             submitButton.setText("Fin du quiz");
             if (!resultTextView.getText().toString().isEmpty()) {
                 navigateToStats();
@@ -143,16 +149,15 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void handleProcess() {
-        //means that we have already display if answer is correct to user
         if (!resultTextView.getText().toString().isEmpty()) {
             updateInterface(quiz.getNextQuestion());
-        } else {
+        }
+        else {
             displayQuestionResponse();
         }
     }
 
     private void displayQuestionResponse() {
-        //check if answer is correct and display to user
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
         if (selectedRadioButtonId != -1) {
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
@@ -162,11 +167,20 @@ public class QuestionActivity extends AppCompatActivity {
                 radioGroup.getChildAt(i).setClickable(false);
             }
 
-            boolean isCorrect = quiz.CheckAnswer(selectedRbText);
-            resultTextView.setText(isCorrect ? "Bonne réponse !" : "Mauvaise réponse !");
-            detailResultTextView.setText(isCorrect ? "" : "La bonne réponse est " + quiz.getCurrentQuestion().answer);
-            resultTextView.setTextColor(getResources().getColor((isCorrect ? R.color.green : R.color.red)));
-        } else {
+            if (quiz.CheckAnswer(selectedRbText)) {
+                resultTextView.setText("Bonne réponse !");
+                detailResultTextView.setText("");
+                resultTextView.setTextColor(getResources().getColor((R.color.green2)));
+                setMediaPlayer(R.raw.song_right_answer);
+            }
+            else {
+                resultTextView.setText("Mauvaise réponse !");
+                detailResultTextView.setText("La bonne réponse est " + quiz.getCurrentQuestion().answer + ".");
+                resultTextView.setTextColor(getResources().getColor(R.color.red));
+                setMediaPlayer(R.raw.song_wring_answer);
+            }
+        }
+        else {
             Toast.makeText(QuestionActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -186,13 +200,13 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void handleRadioUpdate(String[] answers) {
         radioGroup.clearCheck();
-        //create or update radiobutton for current question answers
         for (int i = 0; i < answers.length; i++) {
             RadioButton radioButton;
             if (radioGroup.getChildAt(i) != null) {
                 radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setText(answers[i]);
-            } else {
+            }
+            else {
                 radioButton = new RadioButton(this);
                 radioButton.setId(i);
                 radioButton.setText(answers[i]);
@@ -204,8 +218,6 @@ public class QuestionActivity extends AppCompatActivity {
             }
             radioButton.setClickable(true);
         }
-
-        //delete all radio button over answers length
         if (radioGroup.getChildCount() > answers.length) {
             for (int i = answers.length; i < radioGroup.getChildCount(); i++) {
                 radioGroup.removeViewAt(i);
