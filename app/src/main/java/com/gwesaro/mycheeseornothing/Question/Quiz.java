@@ -33,7 +33,7 @@ public class Quiz implements Parcelable {
 
     private int getNumberOfQuestions() {
         switch (this.mode) {
-            case ALL: return this.questions.size();
+            case ALL: return (int)(new Random().nextFloat() * (11 + 1 - 5) + 5);
             case EASY: return 5;
             case MEDIUM: return 8;
             case HARD: return 11;
