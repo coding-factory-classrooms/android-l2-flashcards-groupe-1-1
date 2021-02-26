@@ -41,36 +41,46 @@
 
             <TextView
                 android:id="@+id/listModeTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#939393"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iconListImageView"
+                app:layout_constraintEnd_toEndOf="@+id/listQuestionTextView"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
                 app:layout_constraintTop_toBottomOf="@+id/listAnswerTextView"
                 tools:text="Difficulté" />
 
             <TextView
                 android:id="@+id/listAnswerTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Réponse 1; Réponse 2 ; Répo..."
                 android:textColor="#000000"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@+id/listModeTextView"
+                app:layout_constraintEnd_toEndOf="@+id/listQuestionTextView"
                 app:layout_constraintStart_toStartOf="@+id/listQuestionTextView"
                 app:layout_constraintTop_toBottomOf="@+id/listQuestionTextView" />
 
             <TextView
                 android:id="@+id/listQuestionTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="19dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/listAnswerTextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iconListImageView"
                 app:layout_constraintTop_toTopOf="@+id/iconListImageView"
                 tools:text="Question ?" />

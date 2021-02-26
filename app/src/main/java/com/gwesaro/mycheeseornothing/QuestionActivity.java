@@ -37,10 +37,11 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        questionImageView = findViewById(R.id.questionImageView);
         radioGroup = findViewById(R.id.radioGroup);
         resultTextView = findViewById(R.id.resultTextView);
         detailResultTextView = findViewById(R.id.detailResultTextView);
-        questionImageView = findViewById(R.id.questionImageView);
+        submitButton = findViewById(R.id.submitButton);
 
         /**
          * add listener on FlashCard image to expend them
@@ -99,8 +100,12 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
-        submitButton = findViewById(R.id.submitButton);
-
+        /**
+         * used to validate question (and display result),
+         * navigate to StatsActivity at quiz end, or go to next question
+         * if there is one (and update interface).
+         * Check if one Radiobutton is select before executing
+         */
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +167,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     /**
      * if the current question has a next question, the process continue.
-     * If not, we navigate to StatsActivity
+     * If not, we navigate to StatsActivity if already have displayQuestionResponse
      */
     private void process() {
         if (quiz.hasNext()) {
@@ -178,8 +183,12 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * if we have already displayQuestionResponse to user,
+     * we updateInterface with next question.
+     * Else, we displayQuestionResponse
+     */
     private void handleProcess() {
-        //means that we have already display if answer is correct to user
         if (!resultTextView.getText().toString().isEmpty()) {
             updateInterface(quiz.getNextQuestion());
         } else {
@@ -190,6 +199,7 @@ public class QuestionActivity extends AppCompatActivity {
     /**
      * display the correct text if the answer is correct or not with the right colors;
      * all RadioButton are set unClickable, to avoid to select other answers
+     * after having display Answer to user
      */
     private void displayQuestionResponse() {
         //check if answer is correct and display to user
@@ -214,28 +224,43 @@ public class QuestionActivity extends AppCompatActivity {
     /**
      * update interface dynamically with the right data from the API;
      * need a question object to set all elements in main view
-     * @param question
+     * @param question : current question POJO with all
+     *                 needed information
      */
     private void updateInterface(Question question) {
+        //reset Question response views content
         resultTextView.setText("");
         detailResultTextView.setText("");
+
         setTitle(question.mode.getModeFrench() + " ~ Question : " + (quiz.getIndexQuestion() + 1) + " / " + quiz.getQuestionsCount());
+
+        //set question title
         TextView questionTextView = findViewById(R.id.questionTextView);
         questionTextView.setText(question.question);
+
+        //update radioButtons
         handleRadioUpdate(quiz.mixAnswers(question.answers));
+
+        //set imageView with question image
         ImageView imageView = findViewById(R.id.questionImageView);
         imageView.setImageResource(getResources().getIdentifier(question.imagePath.split("\\.")[0], "drawable", getPackageName()));
+
+        //reset submitButton
         submitButton.setEnabled(false);
         submitButton.setText("Valider");
     }
 
     /**
-     * @todo Gwen
-     * @param answers
+     * this methods clear radioGroup checked RadioButton.
+     * also create as many RadioButton as answers.
+     *
+     * We don't delete all Radiobutton, we set exiting ones with a possible answer
+     * and delete unnecessary ones.
+     * @param answers : current question answers, used to create same RadioButton number
      */
     private void handleRadioUpdate(String[] answers) {
         radioGroup.clearCheck();
-        //create or update radiobutton for current question answers
+        // create or update radiobutton for current question answers
         for (int i = 0; i < answers.length; i++) {
             RadioButton radioButton;
             if (radioGroup.getChildAt(i) != null) {
@@ -245,6 +270,8 @@ public class QuestionActivity extends AppCompatActivity {
                 radioButton = new RadioButton(this);
                 radioButton.setId(i);
                 radioButton.setText(answers[i]);
+
+                // set radiobutton color for text and Circle
                 radioButton.setTextColor(getResources().getColor(R.color.black));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     setRadioButtonColor(radioButton);
@@ -254,7 +281,7 @@ public class QuestionActivity extends AppCompatActivity {
             radioButton.setClickable(true);
         }
 
-        //delete all radio button over answers length
+        // delete all unnecessary radioButton, over answers length
         if (radioGroup.getChildCount() > answers.length) {
             for (int i = answers.length; i < radioGroup.getChildCount(); i++) {
                 radioGroup.removeViewAt(i);
@@ -262,6 +289,10 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * set a color to a RqdioButton circle
+     * @param radioButton : the radioButton to update
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setRadioButtonColor(RadioButton radioButton) {
         radioButton.setButtonTintList(colorStateList);
@@ -280,6 +311,8 @@ public class QuestionActivity extends AppCompatActivity {
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+
+        // avoid user to return to this activity after navigate to the new one
         finish();
     }
 }

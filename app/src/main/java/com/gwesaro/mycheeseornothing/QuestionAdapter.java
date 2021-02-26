@@ -28,8 +28,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     }
 
     /**
-     * Override method click to navigate to the rigth flashCard with the rigth data retrieve from the Tag
-     * @param v
+     * Override method click to navigate to the right flashCard with the right data retrieve from the Tag
+     * @param v : current view
      */
     @Override
     public void onClick(View v) {
@@ -65,31 +65,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, int position) {
         Question question = questions.get(position);
 
+        // build a string to avoid question title to overflow its parent view
         StringBuilder answer = new StringBuilder();
-        for (int i = 0; i < 3 && i < question.answers.length; i++) {
+        for (int i = 0; answer.length()<37 && i < question.answers.length; i++) {
             if (i != 0) {
                 answer.append(" ~ ");
             }
             answer.append(question.answers[i]);
-            if (i == 2 && i + 1 < question.answers.length) {
-                answer.append("...");
-            }
-        }
-        String answerStr = new String(answer);
-        if (answerStr.length() > 40) {
-            answerStr = answerStr.substring(0, 37);
-            answerStr += "...";
         }
 
+        // cut answers and question if String is too long
+        String answerStr = new String(answer);
         String questionStr = question.question;
-        if (questionStr.length() > 40) {
-            questionStr = questionStr.substring(0, 37);
-            questionStr += "...";
-        }
+
         holder.listQuestionTextView.setText(questionStr);
         holder.listAnswerTextView.setText(answerStr);
         holder.listModeTextView.setText(question.mode.getModeFrench());
 
+        // set item image
         holder.itemView.setTag(question);
         switch (question.mode) {
             case EASY:

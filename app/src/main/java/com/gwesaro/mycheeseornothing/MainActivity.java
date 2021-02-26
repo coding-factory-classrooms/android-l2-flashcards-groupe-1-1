@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     }
 
     /**
-     * @todo Romano
+     * add a listener on questionCollection
      */
     @Override
     protected void onResume() {
@@ -94,13 +93,14 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
         questionCollection.addQuestionCollectionEventListener(this);
     }
     /**
-     * @todo Romano
+     * remove listener on questionCollection
      */
     @Override
     protected void onPause() {
         super.onPause();
         questionCollection.removeQuestionCollectionEventListener(this);
     }
+
     /**
      * add listener when backButton is pressed and set two button for Cancel or Accept
      */
@@ -124,15 +124,19 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
                 })
                 .show();
     }
+
     /**
-     * @todo Romano
+     * display a toast if cannot fetch data from API
      */
     @Override
     public void onFailed(Exception e) {
         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
     /**
-     * @todo Romano
+     * launch a quiz and start the correct Activity (Question or QuestionList)
+     * depending on isQuiz boolean.
+     * isQuiz is true if click on button 'learn cheese', should start QuestionActivity.
      */
     @Override
     public void onQuestionsChanged(ArrayList<Question> questions, QuestionMode mode) {

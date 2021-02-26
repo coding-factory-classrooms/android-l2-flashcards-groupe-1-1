@@ -83,14 +83,18 @@ public class QuestionCollection{
     }
 
     /**
-     * @todo Romano c'est pour toi
-     * @param mode
+     * used to fetch questions from (Best PO ever) Robin's server.
+     * mode is used to fetch the wanted questions.
+     * @param mode : quiz mode
      */
     public void fetchQuestions(QuestionMode mode) {
+        // create the url to send to server
         String url = "http://gryt.tech:8080/mycheeseornothing/";
         if (mode != QuestionMode.ALL) {
             url += "?difficulty=" + mode.toString().toLowerCase();
         }
+
+        // start request
         Request request = new Request.Builder().url(url).build();
         OkHttpClient client = new OkHttpClient();
         client.newCall(request).enqueue(new Callback() {
@@ -106,13 +110,19 @@ public class QuestionCollection{
                 ArrayList<Question> questions = new ArrayList<>();
                 try {
                     JSONArray json = new JSONArray(body);
+
+                    // loop for each question in the jsonArray
                     for (int i = 0; i < json.length(); i++) {
                         JSONObject question = new JSONObject(json.get(i).toString());
+
+                        // get current question potential answers
                         JSONArray jsonAnswers = question.getJSONArray("responses");
                         String[] answers = new String[jsonAnswers.length()];
                         for (int j = 0; j < jsonAnswers.length(); j++) {
                             answers[j] = jsonAnswers.getString(j);
                         }
+
+                        // add a new question to list
                         questions.add(new Question(
                                 question.getString("question"),
                                 answers,
