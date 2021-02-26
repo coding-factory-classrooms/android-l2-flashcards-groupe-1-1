@@ -76,7 +76,6 @@ public class StatsActivity extends AppCompatActivity {
             setMediaPlayer(R.raw.song_good);
             color = R.color.green2;
         }
-        mediaPlayer.start();
 
         percentTextView.setTextColor(getResources().getColor(color));
 
@@ -108,7 +107,9 @@ public class StatsActivity extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
-        mediaPlayer = MediaPlayer.create(StatsActivity.this, rawId);
-        mediaPlayer.start();
+        if (((App)getApplication()).hasSoundEffect) {
+            mediaPlayer = MediaPlayer.create(StatsActivity.this, rawId);
+            mediaPlayer.start();
+        }
     }
 }

@@ -161,8 +161,10 @@ public class QuestionActivity extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
-        mediaPlayer = MediaPlayer.create(QuestionActivity.this, rawId);
-        mediaPlayer.start();
+        if (((App)getApplication()).hasSoundEffect) {
+            mediaPlayer = MediaPlayer.create(QuestionActivity.this, rawId);
+            mediaPlayer.start();
+        }
     }
 
     /**

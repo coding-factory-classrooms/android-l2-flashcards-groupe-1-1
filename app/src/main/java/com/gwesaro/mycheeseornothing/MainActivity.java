@@ -2,6 +2,7 @@ package com.gwesaro.mycheeseornothing;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -9,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -27,12 +29,20 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     private boolean isQuiz;
     private MediaPlayer mediaPlayer;
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         questionCollection = ((App)getApplication()).questionCollection;
         isQuiz = true;
+        Switch soundEffectSwitch = findViewById(R.id.soundEffectSwitch);
+        soundEffectSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((App)getApplication()).hasSoundEffect = soundEffectSwitch.isChecked();
+            }
+        });
 
         /**
          * add listener on "about" button and create a new Intent to load the target activity
@@ -133,9 +143,12 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
     private void setMediaPlayer(int rawId) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer = null;
         }
-        mediaPlayer = MediaPlayer.create(MainActivity.this, rawId);
-        mediaPlayer.start();
+        if (((App)getApplication()).hasSoundEffect) {
+            mediaPlayer = MediaPlayer.create(MainActivity.this, rawId);
+            mediaPlayer.start();
+        }
     }
 
     @Override
