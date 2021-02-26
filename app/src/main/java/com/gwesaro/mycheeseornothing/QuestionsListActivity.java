@@ -25,6 +25,7 @@ public class QuestionsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_list);
         setTitle("Liste des questions");
+
         /**
          * Retrieve the intent
          */
@@ -40,6 +41,9 @@ public class QuestionsListActivity extends AppCompatActivity {
             listQuestions.add(quiz.get(i));
         }
 
+        /**
+         * set RecyclerView
+         */
         QuestionAdapter adapter = new QuestionAdapter(listQuestions);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewQuestion);
         recyclerView.setAdapter(adapter);

@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/**
+ * used to display an item in recyclerView
+ */
 public class QuestionsItemActivity extends AppCompatActivity {
 
     @Override

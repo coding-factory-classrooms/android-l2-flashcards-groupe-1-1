@@ -30,15 +30,17 @@ public class StatsActivity extends AppCompatActivity {
         int nbCorrectAnswers = srcIntent.getIntExtra("nbCorrectAnswers", 0);
         int nbQuestions = srcIntent.getIntExtra("nbQuestions", 1);
 
+        /**
+         * update mode displayed on screen
+         */
         TextView modeTextView = findViewById(R.id.modeTextView);
         QuestionMode mode = QuestionMode.values()[srcIntent.getIntExtra("modeOrdinal", 0)];
-
         modeTextView.setText(mode.getModeFrench());
 
         ImageView statsImageView = findViewById(R.id.statsImageView);
 
         /**
-         * switch / case to set the rigth icon for the given mode
+         * switch / case to set the right icon for the given mode
          */
         switch (mode) {
             case EASY:
@@ -56,19 +58,27 @@ public class StatsActivity extends AppCompatActivity {
                 break;
         }
 
+        // display user rate ("2/3")
         TextView goodAnswersCountTextView = findViewById(R.id.goodAnswersCountTextView);
         goodAnswersCountTextView.setText(nbCorrectAnswers +  "/" + nbQuestions);
+
+        // adapt label 'Bonne reponse' if one or several question
         TextView labelAnswer = findViewById(R.id.labelAnswer);
         labelAnswer.setText(nbCorrectAnswers > 1 ? "Bonnes réponses" : "Bonne réponse");
 
+        // calculate user's correct answers percentage
         float percent = (float) nbCorrectAnswers / nbQuestions * 100;
         float result = (float) Math.round(percent * 100) / 100;
 
+        // display percentage
         TextView percentTextView = findViewById(R.id.percentTextView);
         percentTextView.setText(result + " %");
+
+        // adapt percent TextView color on calculate percentage
         int color = result < 33.3f ? R.color.red : (result > 66.6f ? R.color.green : R.color.cheese);
         percentTextView.setTextColor(getResources().getColor(color));
 
+        // button to backspace
         Button returnToMainButton = findViewById(R.id.returnToMainButton);
         returnToMainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -76,6 +86,7 @@ public class StatsActivity extends AppCompatActivity {
             }
         });
 
+        // display a progressBar with animation (fill depending on user's percentage)
         ProgressBar progress = findViewById(R.id.progressBar);
         progress.getProgressDrawable().setColorFilter(getResources().getColor(color), android.graphics.PorterDuff.Mode.SRC_IN);
         ProgressBarAnimation anim = new ProgressBarAnimation(progress, 0.0f, percent);

@@ -145,7 +145,7 @@ public class Quiz implements Parcelable {
     }
 
     /**
-     * check if the given answer is the rigth one
+     * check if the given answer is the right one
      * @param answer
      * @return
      */
