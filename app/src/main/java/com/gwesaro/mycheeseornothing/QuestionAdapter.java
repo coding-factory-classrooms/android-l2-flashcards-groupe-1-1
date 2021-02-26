@@ -67,7 +67,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
         // build a string to avoid question title to overflow its parent view
         StringBuilder answer = new StringBuilder();
-        for (int i = 0; answer.length()<37 && i < question.answers.length; i++) {
+        for (int i = 0; answer.length() < 37 && i < question.answers.length; i++) {
             if (i != 0) {
                 answer.append(" ~ ");
             }
@@ -84,21 +84,17 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
         // set item image
         holder.itemView.setTag(question);
+
+        int image;
         switch (question.mode) {
-            case EASY:
-                holder.iconListImageView.setImageResource(R.drawable.logo_easy);
-                break;
-            case MEDIUM:
-                holder.iconListImageView.setImageResource(R.drawable.logo_medium);
-                break;
-            case HARD:
-                holder.iconListImageView.setImageResource(R.drawable.logo_hard);
-                break;
+            case EASY: image = R.drawable.logo_easy; break;
+            case MEDIUM: image = R.drawable.logo_medium; break;
+            case HARD: image = R.drawable.logo_hard; break;
+            case RANDOM:
             case ALL:
-            default:
-                holder.iconListImageView.setImageResource(R.drawable.logo2);
-                break;
+            default: image = R.drawable.logo2; break;
         }
+        holder.iconListImageView.setImageResource(image);
         holder.itemView.setOnClickListener(this);
     }
 

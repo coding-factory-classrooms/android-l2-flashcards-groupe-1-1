@@ -140,6 +140,7 @@ public class QuestionActivity extends AppCompatActivity {
             case EASY: dialog.setIcon(R.drawable.logo_easy); break;
             case MEDIUM: dialog.setIcon(R.drawable.logo_medium); break;
             case HARD: dialog.setIcon(R.drawable.logo_hard); break;
+            case RANDOM:
             case ALL:
             default:
                 dialog.setIcon(R.drawable.logo2);

@@ -43,6 +43,7 @@ public class StatsActivity extends AppCompatActivity {
             case EASY: statsImageView.setImageResource(R.drawable.logo_easy); break;
             case MEDIUM: statsImageView.setImageResource(R.drawable.logo_medium); break;
             case HARD: statsImageView.setImageResource(R.drawable.logo_hard); break;
+            case RANDOM:
             case ALL:
             default: statsImageView.setImageResource(R.drawable.logo2); break;
         }

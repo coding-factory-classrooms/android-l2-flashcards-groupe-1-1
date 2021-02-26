@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCollectio
                             public void onClick(DialogInterface dialog, int which) {
                                 isQuiz = true;
                                 questionCollection.fetchQuestions(QuestionMode.values()[which]);
+                                Log.i(TAG, "onClick: mode = " + QuestionMode.values()[which]);
                                 dialog.dismiss();
                             }
                         })
