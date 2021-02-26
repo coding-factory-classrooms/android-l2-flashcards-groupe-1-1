@@ -35,7 +35,7 @@ public class Quiz implements Parcelable {
     }
 
     /**
-     * return the theoretical number of questions
+     * return the theoretical number of questions.
      * @return
      */
     private int getNumberOfQuestions() {
@@ -54,10 +54,14 @@ public class Quiz implements Parcelable {
     public void mixQuestions() {
         this.currentQuestion = null;
         this.mixedIndex = new int[Math.min(getNumberOfQuestions(), questions.size())];
+
+        // create a copy of index list to mix easely our questions
         List<Integer> allIndex = new ArrayList<>();
         for (int i = 0; i < questions.size(); i++) {
             allIndex.add(i);
         }
+
+        // mix our questions' index list
         Random random = new Random();
         for (int i = 0; i < mixedIndex.length; i++) {
             mixedIndex[i] = allIndex.remove(random.nextInt(allIndex.size()));
@@ -65,15 +69,14 @@ public class Quiz implements Parcelable {
     }
 
     /**
-     * Mix the answers's indexes
-     * @param answers
+     * Mix the questions' answers string
+     * @param answers : String array of a question's answers
      * @return
      */
     public String[] mixAnswers(String[] answers) {
         List<String> strList = Arrays.asList(answers);
         Collections.shuffle(strList);
         answers = strList.toArray(new String[strList.size()]);
-
         return answers;
     }
 
@@ -145,7 +148,7 @@ public class Quiz implements Parcelable {
     }
 
     /**
-     * check if the given answer is the right one
+     * check if the given answer is the right one, and increment validAnswersCount
      * @param answer
      * @return
      */

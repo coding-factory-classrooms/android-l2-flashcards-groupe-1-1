@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import java.util.Arrays;
 
+/**
+ * A POJO containing all necessary information for a question
+ */
 public class Question implements Parcelable {
     public final String question;
     public final String[] answers;
@@ -66,6 +69,11 @@ public class Question implements Parcelable {
         }
     };
 
+    /**
+     * check and get if a user response is correct
+     * @param answer
+     * @return
+     */
     public boolean isValid(String answer) {
         return this.answer.equals(answer);
     }
