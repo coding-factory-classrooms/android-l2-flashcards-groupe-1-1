@@ -10,12 +10,12 @@
         android:id="@+id/statsImageView"
         android:layout_width="320dp"
         android:layout_height="385dp"
-        android:alpha="0.5"
+        android:alpha="0.35"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_hard" />
+        app:srcCompat="@drawable/logo2" />
 
     <TextView
         android:id="@+id/modeTextView"
@@ -45,7 +45,8 @@
         android:id="@+id/percentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/cheese"
+        android:fontFamily="cursive"
+        android:textColor="@color/green2"
         android:textSize="70sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/statsImageView"
